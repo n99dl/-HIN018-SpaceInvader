@@ -47,9 +47,27 @@ void GameController::Update(float dt)
 {
 	m_Player->Move(KeyPressed, dt);
 	m_Player->Update(KeyPressed);
-	for (auto it : m_listEnemy)
+	//for (auto it : m_listEnemy)
+	//{
+	//	it->Update(dt);
+	//	if (!(it->isActive()))
+	//	{
+	//		m_listEnemy.remove(it);
+	//	}
+	//}
+	std::list<std::shared_ptr<Enemy>>::iterator i = m_listEnemy.begin();
+	while (i != m_listEnemy.end())
 	{
-		it->Update(dt);
+		(*i)->Update(dt);
+		bool isActive = (*i)->isActive();
+		if (!isActive)
+		{
+			m_listEnemy.erase(i++);  // alternatively, i = items.erase(i);
+		}
+		else
+		{
+			++i;
+		}
 	}
 }
 

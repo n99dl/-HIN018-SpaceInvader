@@ -14,6 +14,7 @@ public:
 
 	static int availaible_id;
 	static int GetAvailableID();
+	static bool OutOfWindow(Vector2 Position);
 protected:
 	Vector2 m_Position;
 	int m_id;

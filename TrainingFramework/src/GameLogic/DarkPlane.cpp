@@ -35,4 +35,5 @@ void DarkPlane::Update(float dt)
 	Move(dt);
 	m_Sprite->Set2DPosition(m_Position);
 	m_Sprite->Update(dt);
+	CheckActive();
 }

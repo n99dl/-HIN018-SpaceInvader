@@ -1,5 +1,8 @@
 #include "Entity.h"
 
+extern int screenWidth; //need get on Graphic engine
+extern int screenHeight; //need get on Graphic engine
+
 Entity::Entity()
 {
 	m_Position = Vector2(0, 0);
@@ -26,4 +29,11 @@ int Entity::availaible_id = 0;
 int Entity::GetAvailableID()
 {
 	return ++availaible_id;
+}
+
+bool Entity::OutOfWindow(Vector2 Position)
+{
+	if (Position.x < 0 || Position.x > screenWidth || Position.y < 0 || Position.y > screenHeight)
+		return true;
+	return false;
 }
