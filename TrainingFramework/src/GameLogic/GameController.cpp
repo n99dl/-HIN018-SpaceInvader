@@ -1,5 +1,9 @@
 #include "GameController.h"
 #include "../ControlConfig.h"
+#include <GameLogic\DarkPlane.h>
+
+extern int screenWidth; //need get on Graphic engine
+extern int screenHeight; //need get on Graphic engine
 
 GameController::GameController()
 {
@@ -17,17 +21,36 @@ void GameController::CreatePlayer()
 
 void GameController::CreateLevel()
 {
+	CreatePlayer();
+	CreateEnemies();
+}
+
+void GameController::CreateEnemies()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		std::shared_ptr<DarkPlane> newEnemy = std::make_shared<DarkPlane>(rand() % screenWidth);
+		m_listEnemy.push_back(newEnemy);
+	}
 }
 
 void GameController::Draw()
 {
 	m_Player->Draw();
+	for (auto it : m_listEnemy)
+	{
+		it->Draw();
+	}
 }
 
 void GameController::Update(float dt)
 {
 	m_Player->Move(KeyPressed, dt);
 	m_Player->Update(KeyPressed);
+	for (auto it : m_listEnemy)
+	{
+		it->Update(dt);
+	}
 }
 
 void GameController::HandleKeyEvents(int key, bool isPressed)

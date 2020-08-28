@@ -42,7 +42,8 @@ void GSPlay::Init()
 	
 	//GameController
 
-	GameController::GetInstance()->CreatePlayer();
+	//GameController::GetInstance()->CreatePlayer();
+	GameController::GetInstance()->CreateLevel();
 }
 
 void GSPlay::Exit()

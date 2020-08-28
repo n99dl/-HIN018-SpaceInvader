@@ -84,6 +84,12 @@
     <ClCompile Include="src\GameLogic\Entity.cpp">
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameLogic\Enemy.cpp">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameLogic\DarkPlane.cpp">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -146,9 +152,6 @@
     <ClInclude Include="src\GameLogic\Player.h">
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameLogic\PlayerConfig.h">
-      <Filter>TrainingFramework\src\GameLogic</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameLogic\GameController.h">
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClInclude>
@@ -159,6 +162,15 @@
       <Filter>TrainingFramework\src</Filter>
     </ClInclude>
     <ClInclude Include="src\GameLogic\Entity.h">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogic\Enemy.h">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogic\GameLogicConfig.h">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogic\DarkPlane.h">
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClInclude>
   </ItemGroup>

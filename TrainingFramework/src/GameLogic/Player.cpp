@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "PlayerConfig.h"
+#include "GameLogicConfig.h"
 #include "ResourceManagers.h"
 
 extern int screenWidth; //need get on Graphic engine

@@ -1,5 +1,5 @@
 #include "GSIntro.h"
-#define DELAY_TIME 0.1
+#define DELAY_TIME 2
 
 
 extern int screenWidth; //need get on Graphic engine
