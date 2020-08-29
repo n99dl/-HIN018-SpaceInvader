@@ -7,6 +7,7 @@ Entity::Entity()
 {
 	m_Position = Vector2(0, 0);
 	m_id = Entity::GetAvailableID();
+	std::cout << "Entity created "<<m_id<<"\n";
 }
 
 Entity::~Entity()
@@ -36,4 +37,16 @@ bool Entity::OutOfWindow(Vector2 Position)
 	if (Position.x < 0 || Position.x > screenWidth || Position.y < 0 || Position.y > screenHeight)
 		return true;
 	return false;
+}
+
+
+bool Entity::isActive()
+{
+	return m_isActive;
+}
+
+void Entity::CheckActive()
+{
+	if (Entity::OutOfWindow(m_Position))
+		m_isActive = false;
 }

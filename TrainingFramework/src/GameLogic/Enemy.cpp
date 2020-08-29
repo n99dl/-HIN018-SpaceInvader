@@ -1,13 +1,6 @@
 #include "Enemy.h"
 #include <iostream>
 
-void Enemy::CheckActive()
-{
-	if (m_Hp <= 0)
-		m_isActive = false;
-	if (Entity::OutOfWindow(m_Position))
-		m_isActive = false;
-}
 
 Enemy::Enemy()
 {
@@ -40,7 +33,3 @@ void Enemy::SetPosition(Vector2 Position)
 	m_Position = Position;
 }
 
-bool Enemy::isActive()
-{
-	return m_isActive;
-}

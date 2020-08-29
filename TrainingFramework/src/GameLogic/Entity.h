@@ -15,9 +15,12 @@ public:
 	static int availaible_id;
 	static int GetAvailableID();
 	static bool OutOfWindow(Vector2 Position);
+	bool isActive();
 protected:
+	bool m_isActive;
 	Vector2 m_Position;
 	int m_id;
 	std::shared_ptr<Sprite2D> m_Sprite;
+	void CheckActive();
 };
 

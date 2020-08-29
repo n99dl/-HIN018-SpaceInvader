@@ -41,32 +41,49 @@ void GameController::Draw()
 	{
 		it->Draw();
 	}
+	for (auto it : m_listBullet)
+	{
+		it->Draw();
+	}
 }
 
 void GameController::Update(float dt)
 {
+	//Update Player
 	m_Player->Move(KeyPressed, dt);
-	m_Player->Update(KeyPressed);
-	//for (auto it : m_listEnemy)
-	//{
-	//	it->Update(dt);
-	//	if (!(it->isActive()))
-	//	{
-	//		m_listEnemy.remove(it);
-	//	}
-	//}
-	std::list<std::shared_ptr<Enemy>>::iterator i = m_listEnemy.begin();
-	while (i != m_listEnemy.end())
+	m_Player->Update(dt);
+	//Update Enemy
 	{
-		(*i)->Update(dt);
-		bool isActive = (*i)->isActive();
-		if (!isActive)
+		std::list<std::shared_ptr<Enemy>>::iterator i = m_listEnemy.begin();
+		while (i != m_listEnemy.end())
 		{
-			m_listEnemy.erase(i++);  // alternatively, i = items.erase(i);
+			(*i)->Update(dt);
+			bool isActive = (*i)->isActive();
+			if (!isActive)
+			{
+				m_listEnemy.erase(i++);  // alternatively, i = items.erase(i);
+			}
+			else
+			{
+				++i;
+			}
 		}
-		else
+	}
+	//Update Bullet
+	{
+		std::list<std::shared_ptr<Bullet>>::iterator i = m_listBullet.begin();
+		while (i != m_listBullet.end())
 		{
-			++i;
+			(*i)->Update(dt);
+			bool isActive = (*i)->isActive();
+			if (!isActive)
+			{
+				m_listBullet.erase(i++);  // alternatively, i = items.erase(i);
+			}
+			else
+			{
+				++i;
+			}
 		}
 	}
 }
@@ -114,12 +131,21 @@ void GameController::HandleKeyEvents(int key, bool isPressed)
 	}
 }
 
-void GameController::HandleTouchEvents(int x, int y, bool isPressed)
+void GameController::HandleTouchEvents(int x, int y, int isPressed)
 {
 	m_Player->MoveByMouse(x, y);
+	if (isPressed == 1)
+	{
+		m_Player->Shoot();
+	}
 }
 
 std::shared_ptr<Player> GameController::GetPlayer()
 {
 	return std::shared_ptr<Player>();
+}
+
+void GameController::AddBullet(std::shared_ptr<Bullet> NewBullet)
+{
+	m_listBullet.push_back(NewBullet);
 }

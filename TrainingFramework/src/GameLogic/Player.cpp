@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "GameLogicConfig.h"
 #include "ResourceManagers.h"
+#include <GameLogic\Bullet.h>
+#include <GameLogic\GameController.h>
 
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
@@ -14,6 +16,8 @@ void Player::Update(float dt)
 {
 	m_Sprite->Set2DPosition(m_Position);
 	m_Sprite->Update(dt);
+	m_ShootTime += dt;
+	m_ShootTime = min(m_ShootTime, BASE_ATTACK_SPEED);
 }
 
 void Player::Move(int KeyPressed, float dt)
@@ -38,6 +42,24 @@ void Player::MoveByMouse(int x, int y)
 	FixPosition();
 }
 
+void Player::Shoot()
+{
+	if (m_ShootTime < BASE_ATTACK_SPEED)
+	{
+		return;
+	}
+	else
+		m_ShootTime -= BASE_ATTACK_SPEED;
+	switch (m_WeaponLevel)
+	{
+	case 1:
+		ShootStraight();
+		break;
+	default:
+		break;
+	}
+}
+
 
 void Player::FixPosition()
 {
@@ -45,6 +67,14 @@ void Player::FixPosition()
 	m_Position.y = max(m_Position.y, SIZE_Y / 2);
 	m_Position.x = min(m_Position.x, screenWidth - SIZE_X / 2);
 	m_Position.y = min(m_Position.y, screenHeight - SIZE_Y / 2);
+}
+
+void Player::ShootStraight()
+{
+	//std::shared_ptr<Bullet> NewBullet = Bullet::Create(m_Position);
+	//GameController::GetInstance()->AddBullet(NewBullet);
+	std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(m_Position);
+	GameController::GetInstance()->AddBullet(NewBullet);
 }
 
 Player::Player()
@@ -58,6 +88,8 @@ Player::Player()
 	m_Sprite->Set2DPosition(m_Position);
 	m_Speed = BASE_SPEED;
 	m_Hp = BASE_HP;
+	m_WeaponLevel = BASE_WEAPON_POWER;
+	m_ShootTime = 0;
 }
 
 Player::~Player()
