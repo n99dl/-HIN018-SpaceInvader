@@ -2,11 +2,8 @@
 #include "GameLogicConfig.h"
 #include "ResourceManagers.h"
 #include <iostream>
+#include <GameLogic\HitBox.h>
 
-void DarkPlane::Move(float delta)
-{
-	m_Position += Vector2(0, m_Speed * delta);
-}
 
 DarkPlane::DarkPlane()
 {
@@ -16,6 +13,8 @@ DarkPlane::DarkPlane()
 	auto texture = ResourceManagers::GetInstance()->GetTexture("dark_plane");
 	m_Sprite = std::make_shared<Sprite2D>(model, shader, texture);
 	m_Sprite->SetSize(E1_SIZE_X, E1_SIZE_Y);
+	m_HitBox = std::make_shared<HitBox>(m_Position, Vector2(E1_SIZE_X / 2.0 + E1_SIZE_X_OFFSET,
+															E1_SIZE_Y / 2.0 + E1_SIZE_Y_OFFSET));
 	m_Sprite->Set2DPosition(m_Position);
 	m_Speed = E1_BASE_SPEED;
 	m_Hp = E1_BASE_HP;
@@ -32,8 +31,6 @@ DarkPlane::~DarkPlane()
 
 void DarkPlane::Update(float dt)
 {
-	Move(dt);
-	m_Sprite->Set2DPosition(m_Position);
-	m_Sprite->Update(dt);
+	Enemy::Update(dt);
 	CheckActive();
 }

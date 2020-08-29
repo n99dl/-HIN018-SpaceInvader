@@ -13,6 +13,7 @@ protected:
 	void FixPosition();
 	void ShootStraight();
 	float m_ShootTime;
+	bool m_IsShooting;
 public:
 	Player();
 	~Player();
@@ -21,5 +22,6 @@ public:
 	void Move(int KeyPressed, float dt);
 	void MoveByMouse(int x, int y);
 	void Shoot();
+	void SetIsShooting(bool IsShooting);
 };
 

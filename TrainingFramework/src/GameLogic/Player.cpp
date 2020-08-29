@@ -14,6 +14,8 @@ void Player::Draw()
 
 void Player::Update(float dt)
 {
+	if (m_IsShooting)
+		Shoot();
 	m_Sprite->Set2DPosition(m_Position);
 	m_Sprite->Update(dt);
 	m_ShootTime += dt;
@@ -60,6 +62,11 @@ void Player::Shoot()
 	}
 }
 
+void Player::SetIsShooting(bool IsShooting)
+{
+	m_IsShooting = IsShooting;
+}
+
 
 void Player::FixPosition()
 {
@@ -90,6 +97,7 @@ Player::Player()
 	m_Hp = BASE_HP;
 	m_WeaponLevel = BASE_WEAPON_POWER;
 	m_ShootTime = 0;
+	m_IsShooting = 0;
 }
 
 Player::~Player()

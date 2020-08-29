@@ -23,5 +23,7 @@ private:
 	std::list<std::shared_ptr<Enemy>> m_listEnemy;
 	std::list<std::shared_ptr<Bullet>> m_listBullet;
 	int KeyPressed = 0;
+	float m_GameTime = 0;
+	float m_EnemySpamTime = 2.0f;
 };
 

@@ -8,24 +8,29 @@ extern int screenHeight; //need get on Graphic engine
 #define BASE_SPEED 200
 #define BASE_HP 100
 #define BASE_WEAPON_POWER 1
-#define BASE_BULLET_SPEED 400
+#define BASE_BULLET_SPEED 600
 #define BASE_ATTACK_SPEED 0.4
 
-#define SIZE_X 100
-#define SIZE_Y 100
+#define SIZE_X 80
+#define SIZE_Y 80
 
 //Enemy Config
 
 //Dark Plane
 
-#define E1_START_POSITION Vector2(screenWidth/2, 100)
+#define E1_START_POSITION Vector2(screenWidth/2, 50)
 #define E1_BASE_SPEED 100
 #define E1_BASE_HP 30
 
 #define E1_SIZE_X 50
 #define E1_SIZE_Y 50
 
+#define E1_SIZE_Y_OFFSET -10
+#define E1_SIZE_X_OFFSET -5
+
 //Bullet Config
 
 #define PB_SIZE_X 40
 #define PB_SIZE_Y 40
+
+#define BASE_BULLET_POWER 10

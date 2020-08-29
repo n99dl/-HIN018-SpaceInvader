@@ -22,16 +22,12 @@ void GameController::CreatePlayer()
 void GameController::CreateLevel()
 {
 	CreatePlayer();
-	CreateEnemies();
 }
 
 void GameController::CreateEnemies()
 {
-	for (int i = 0; i < 10; i++)
-	{
-		std::shared_ptr<DarkPlane> newEnemy = std::make_shared<DarkPlane>(rand() % screenWidth);
-		m_listEnemy.push_back(newEnemy);
-	}
+	std::shared_ptr<DarkPlane> newEnemy = std::make_shared<DarkPlane>(rand() % screenWidth);
+	m_listEnemy.push_back(newEnemy);
 }
 
 void GameController::Draw()
@@ -49,8 +45,19 @@ void GameController::Draw()
 
 void GameController::Update(float dt)
 {
+	m_GameTime += dt;
+	m_EnemySpamTime += dt;
+	if (m_EnemySpamTime > 2.0f) //Let set this fix for now
+	{
+		CreateEnemies();
+		m_EnemySpamTime -= 2.0f;
+	}
 	//Update Player
 	m_Player->Move(KeyPressed, dt);
+	/*if (KeyPressed & SHOOT)
+		m_Player->SetIsShooting(true);
+	else
+		m_Player->SetIsShooting(false);*/
 	m_Player->Update(dt);
 	//Update Enemy
 	{
@@ -86,6 +93,16 @@ void GameController::Update(float dt)
 			}
 		}
 	}
+	//Collision Check
+	for (auto enemy : m_listEnemy)
+	{
+		for (auto bullet : m_listBullet)
+			if (bullet->IsCollide(enemy))
+			{
+				enemy->DamageBy(bullet);
+				bullet->SelfDestruct();
+			}
+	}
 }
 
 void GameController::HandleKeyEvents(int key, bool isPressed)
@@ -106,6 +123,8 @@ void GameController::HandleKeyEvents(int key, bool isPressed)
 		case 'D':
 			KeyPressed |= MOVE_RIGHT;
 			break;
+		case 32:
+			KeyPressed |= SHOOT;
 		defualt:
 			break;
 		}
@@ -125,6 +144,8 @@ void GameController::HandleKeyEvents(int key, bool isPressed)
 		case 'D':
 			KeyPressed ^= MOVE_RIGHT;
 			break;
+		case 32:
+			KeyPressed ^= SHOOT;
 		default:
 			break;
 		}
@@ -136,8 +157,9 @@ void GameController::HandleTouchEvents(int x, int y, int isPressed)
 	m_Player->MoveByMouse(x, y);
 	if (isPressed == 1)
 	{
-		m_Player->Shoot();
-	}
+		m_Player->SetIsShooting(true);
+	} else if (isPressed == 0)
+		m_Player->SetIsShooting(false);
 }
 
 std::shared_ptr<Player> GameController::GetPlayer()

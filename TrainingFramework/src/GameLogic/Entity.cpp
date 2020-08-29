@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <GameLogic\HitBox.h>
 
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
@@ -7,6 +8,7 @@ Entity::Entity()
 {
 	m_Position = Vector2(0, 0);
 	m_id = Entity::GetAvailableID();
+	m_HitBox = std::make_shared<HitBox>();
 	std::cout << "Entity created "<<m_id<<"\n";
 }
 
@@ -49,4 +51,14 @@ void Entity::CheckActive()
 {
 	if (Entity::OutOfWindow(m_Position))
 		m_isActive = false;
+}
+
+std::shared_ptr<HitBox> Entity::GetHitBox()
+{
+	return m_HitBox;
+}
+
+bool Entity::IsCollide(std::shared_ptr<Entity> _Entity)
+{
+	return m_HitBox->IsCollide(_Entity->GetHitBox());
 }

@@ -11,8 +11,11 @@ Bullet::Bullet()
 	m_Sprite->SetSize(PB_SIZE_X, PB_SIZE_Y);
 	m_Sprite->Set2DPosition(m_Position);
 
+	m_HitBox = std::make_shared<HitBox>(Vector2(m_Position), Vector2(PB_SIZE_X / 2.0 - 5, PB_SIZE_Y / 2.0 - 5));
+
 	m_Position = Vector2(0, 0);
 	m_Speed = BASE_BULLET_SPEED;
+	m_Power = BASE_BULLET_POWER;
 	m_BulletPatern = Vector2(0, -1);
 }
 
@@ -37,6 +40,7 @@ void Bullet::Update(float dt)
 	Move(dt);
 	m_Sprite->Set2DPosition(m_Position);
 	m_Sprite->Update(dt);
+	m_HitBox->SetPosition(m_Position);
 	CheckActive();
 }
 
@@ -53,6 +57,16 @@ void Bullet::SetBulletPatern(Vector2 BulletPatern)
 void Bullet::Move(float dt)
 {
 	m_Position += m_BulletPatern * m_Speed * dt;
+}
+
+int Bullet::GetPower()
+{
+	return m_Power;
+}
+
+void Bullet::SelfDestruct()
+{
+	m_isActive = false;
 }
 
 std::shared_ptr<Bullet> Bullet::Create(Vector2 Position)
