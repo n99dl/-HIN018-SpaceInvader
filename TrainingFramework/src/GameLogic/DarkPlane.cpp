@@ -3,7 +3,15 @@
 #include "ResourceManagers.h"
 #include <iostream>
 #include <GameLogic\HitBox.h>
+#include <GameLogic\GameController.h>
 
+
+void DarkPlane::Die()
+{
+	std::cout << "Dark Plane die\n";
+	GameController::GetInstance()->AddScore(E1_SCORE);
+	Enemy::Die();
+}
 
 DarkPlane::DarkPlane()
 {

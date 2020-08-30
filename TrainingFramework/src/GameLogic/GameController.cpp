@@ -41,16 +41,29 @@ void GameController::Draw()
 	{
 		it->Draw();
 	}
+	for (auto it : m_listItem)
+	{
+		it->Draw();
+	}
 }
 
 void GameController::Update(float dt)
 {
 	m_GameTime += dt;
 	m_EnemySpamTime += dt;
-	if (m_EnemySpamTime > 2.0f) //Let set this fix for now
+	//Spam enemies
+	//Temporary difficulty system (need improvement)
+	float BaseSpamTime = 2.0f;
+	if (m_Score > 100)
+		BaseSpamTime = 1.5f;
+	if (m_Score > 200)
+		BaseSpamTime = 1.0f;
+	if (m_Score > 300)
+		BaseSpamTime = 0.5f;
+	if (m_EnemySpamTime > BaseSpamTime)
 	{
 		CreateEnemies();
-		m_EnemySpamTime -= 2.0f;
+		m_EnemySpamTime -= BaseSpamTime;
 	}
 	//Update Player
 	m_Player->Move(KeyPressed, dt);
@@ -93,6 +106,23 @@ void GameController::Update(float dt)
 			}
 		}
 	}
+	//Update Item
+	{
+		std::list<std::shared_ptr<Item>>::iterator i = m_listItem.begin();
+		while (i != m_listItem.end())
+		{
+			(*i)->Update(dt);
+			bool isActive = (*i)->isActive();
+			if (!isActive)
+			{
+				m_listItem.erase(i++);  // alternatively, i = items.erase(i);
+			}
+			else
+			{
+				++i;
+			}
+		}
+	}
 	//Collision Check
 	for (auto enemy : m_listEnemy)
 	{
@@ -102,6 +132,15 @@ void GameController::Update(float dt)
 				enemy->DamageBy(bullet);
 				bullet->SelfDestruct();
 			}
+	}
+
+	for (auto item : m_listItem)
+	{
+		if (item->IsCollide(m_Player))
+		{
+			m_Player->ConsumeItem(item);
+			item->Destroy();
+		}
 	}
 }
 
@@ -170,4 +209,19 @@ std::shared_ptr<Player> GameController::GetPlayer()
 void GameController::AddBullet(std::shared_ptr<Bullet> NewBullet)
 {
 	m_listBullet.push_back(NewBullet);
+}
+
+void GameController::AddItem(std::shared_ptr<Item> NewItem)
+{
+	m_listItem.push_back(NewItem);
+}
+
+void GameController::AddScore(int amount)
+{
+	m_Score += amount;
+}
+
+int GameController::GetScore()
+{
+	return m_Score;
 }

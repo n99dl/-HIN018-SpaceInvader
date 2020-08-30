@@ -4,6 +4,8 @@
 
 Bullet::Bullet()
 {
+	m_Position = Vector2(0, 0);
+
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("player_bullet");
@@ -13,10 +15,9 @@ Bullet::Bullet()
 
 	m_HitBox = std::make_shared<HitBox>(Vector2(m_Position), Vector2(PB_SIZE_X / 2.0 - 5, PB_SIZE_Y / 2.0 - 5));
 
-	m_Position = Vector2(0, 0);
 	m_Speed = BASE_BULLET_SPEED;
 	m_Power = BASE_BULLET_POWER;
-	m_BulletPatern = Vector2(0, -1);
+	m_BulletPatern = Vector2(0, -1); //Move Upward
 }
 
 Bullet::Bullet(Vector2 Position) : Bullet()

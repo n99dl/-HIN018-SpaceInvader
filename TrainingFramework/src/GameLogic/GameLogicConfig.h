@@ -14,6 +14,9 @@ extern int screenHeight; //need get on Graphic engine
 #define SIZE_X 80
 #define SIZE_Y 80
 
+#define DOUBLE_SHOOT_OFFSET 10
+#define REAR_SHOOT_OFFSET 20 
+
 //Enemy Config
 
 //Dark Plane
@@ -28,9 +31,21 @@ extern int screenHeight; //need get on Graphic engine
 #define E1_SIZE_Y_OFFSET -10
 #define E1_SIZE_X_OFFSET -5
 
+#define E1_SCORE 20
+
 //Bullet Config
 
 #define PB_SIZE_X 40
 #define PB_SIZE_Y 40
 
 #define BASE_BULLET_POWER 10
+
+//item config
+
+#define ITEM_POWER_UP 1
+#define ITEM_HEATH 2
+
+#define ITEM_SIZE_X 50
+#define ITEM_SIZE_Y 30
+
+#define ITEM_SPEED 100

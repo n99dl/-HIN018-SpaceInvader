@@ -96,6 +96,9 @@
     <ClCompile Include="src\GameLogic\HitBox.cpp">
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameLogic\Item.cpp">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -183,6 +186,9 @@
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClInclude>
     <ClInclude Include="src\GameLogic\HitBox.h">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogic\Item.h">
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClInclude>
   </ItemGroup>

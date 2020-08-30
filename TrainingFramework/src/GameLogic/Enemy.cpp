@@ -1,12 +1,34 @@
 #include "Enemy.h"
 #include <iostream>
 #include <GameLogic\Bullet.h>
+#include <time.h>
+#include <GameLogic\Item.h>
+#include <GameLogic\GameController.h>
 
 
 void Enemy::CheckAlive()
 {
 	if (m_Hp <= 0)
-		m_isActive = false;
+	{
+		Die();
+	}
+}
+
+void Enemy::Die()
+{
+	m_isActive = false;
+	srand(time(NULL));
+	int odd = rand() % 4; //Let Fix value for now
+	if (!odd)
+	DropItem();
+}
+
+void Enemy::DropItem()
+{
+	srand(time(NULL));
+	int type = rand() % 2 + 1;
+	auto NewItem = std::make_shared<Item>(type, m_Position);
+	GameController::GetInstance()->AddItem(NewItem);
 }
 
 Enemy::Enemy()

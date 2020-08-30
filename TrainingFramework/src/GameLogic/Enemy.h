@@ -8,6 +8,8 @@ protected:
     int m_Hp;
     int m_Speed;
     void CheckAlive();
+    virtual void Die();
+    void DropItem();
 public:
     Enemy();
     Enemy(Vector2 Position);

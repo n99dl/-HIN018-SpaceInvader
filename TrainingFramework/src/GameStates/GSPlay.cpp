@@ -1,4 +1,5 @@
 #include "GSPlay.h"
+#include <string>
 
 #include "Shaders.h"
 #include "Texture.h"
@@ -38,7 +39,7 @@ void GSPlay::Init()
 	//text game title
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
-	m_score = std::make_shared< Text>(shader, font, "score: 10", TEXT_COLOR::RED, 1.0);
+	m_score = std::make_shared< Text>(shader, font, "Score: 10", TEXT_COLOR::RED, 1.0);
 	m_score->Set2DPosition(Vector2(5, 25));
 	
 	//GameController
@@ -82,6 +83,8 @@ void GSPlay::HandleTouchEvents(int x, int y, int bIsPressed)
 void GSPlay::Update(float deltaTime)
 {
 	GameController::GetInstance()->Update(deltaTime);
+	std::string  score = std::to_string(GameController::GetInstance()->GetScore());
+	m_score->setText("Score :" + score);
 }
 
 void GSPlay::Draw()

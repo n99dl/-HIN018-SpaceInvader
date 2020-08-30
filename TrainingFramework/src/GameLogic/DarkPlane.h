@@ -4,6 +4,7 @@ class DarkPlane :
     public Enemy
 {
 private:
+    void Die();
 public:
     DarkPlane();
     DarkPlane(float hPosition);
