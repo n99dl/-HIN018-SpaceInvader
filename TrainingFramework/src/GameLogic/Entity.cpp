@@ -62,3 +62,8 @@ bool Entity::IsCollide(std::shared_ptr<Entity> _Entity)
 {
 	return m_HitBox->IsCollide(_Entity->GetHitBox());
 }
+
+Vector2 Entity::GetPosition()
+{
+	return m_Position;
+}

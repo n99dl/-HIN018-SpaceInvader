@@ -9,12 +9,14 @@ protected:
     int m_Power;
 public:
     Bullet();
-    Bullet(Vector2 Position);
+    Bullet(int type);
+    Bullet(Vector2 Position, int type);
     ~Bullet();
     void Draw();
     void Update(float dt);
     void SetPosition(Vector2 Position);
     void SetBulletPatern(Vector2 BulletPatern);
+    void SetBulletSpeed(int Speed);
     void Move(float dt);
     int GetPower();
     void SelfDestruct();

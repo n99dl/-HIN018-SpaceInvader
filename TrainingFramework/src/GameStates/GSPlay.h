@@ -32,7 +32,7 @@ public:
 private:
 
 	std::shared_ptr<Sprite2D> m_BackGround;
-	std::shared_ptr<Text>  m_score;
+	std::shared_ptr<Text>  m_score, m_Hp;
 	std::shared_ptr<GameController> m_GameController;
 };
 

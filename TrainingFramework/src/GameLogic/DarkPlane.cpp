@@ -26,6 +26,11 @@ DarkPlane::DarkPlane()
 	m_Sprite->Set2DPosition(m_Position);
 	m_Speed = E1_BASE_SPEED;
 	m_Hp = E1_BASE_HP;
+	m_As = E1_BASE_AS;
+	//E1 move pattern
+	m_MovePatern = Vector2(0, 1);
+	//E1 bullet pattern
+	m_BulletPatern = Vector2(0, 1);
 }
 
 DarkPlane::DarkPlane(float hPosition) : DarkPlane()
@@ -41,4 +46,12 @@ void DarkPlane::Update(float dt)
 {
 	Enemy::Update(dt);
 	CheckActive();
+}
+
+void DarkPlane::Shoot()
+{
+	std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(m_Position, E1_BULLET);
+	NewBullet->SetBulletPatern(m_BulletPatern);
+	NewBullet->SetBulletSpeed(E1_BULLET_SPEED);
+	GameController::GetInstance()->AddEnemyBullet(NewBullet);
 }

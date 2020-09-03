@@ -268,8 +268,10 @@
     <ClCompile Include="src\GameLogic\GameController.cpp" />
     <ClCompile Include="src\GameLogic\HitBox.cpp" />
     <ClCompile Include="src\GameLogic\Item.cpp" />
+    <ClCompile Include="src\GameLogic\ObjectPool\Animation.cpp" />
     <ClCompile Include="src\GameLogic\Player.cpp" />
     <ClCompile Include="src\GameManager\ResourceManagers.cpp" />
+    <ClCompile Include="src\GameObject\AnimationSprite.cpp" />
     <ClCompile Include="src\GameObject\Font.cpp" />
     <ClCompile Include="src\GameObject\GameButton.cpp" />
     <ClCompile Include="src\GameObject\Sprite2D.cpp" />
@@ -298,10 +300,12 @@
     <ClInclude Include="src\GameLogic\GameController.h" />
     <ClInclude Include="src\GameLogic\HitBox.h" />
     <ClInclude Include="src\GameLogic\Item.h" />
+    <ClInclude Include="src\GameLogic\ObjectPool\Animation.h" />
     <ClInclude Include="src\GameLogic\Player.h" />
     <ClInclude Include="src\GameLogic\GameLogicConfig.h" />
     <ClInclude Include="src\GameManager\ResourceManagers.h" />
     <ClInclude Include="src\GameManager\Singleton.h" />
+    <ClInclude Include="src\GameObject\AnimationSprite.h" />
     <ClInclude Include="src\GameObject\BaseObject.h" />
     <ClInclude Include="src\GameObject\Font.h" />
     <ClInclude Include="src\GameObject\GameButton.h" />

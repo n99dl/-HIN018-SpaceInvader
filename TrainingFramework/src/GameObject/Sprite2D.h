@@ -17,7 +17,7 @@ public:
 	~Sprite2D();
 
 	void		Init() override;
-	void		Draw() final;
+	void		Draw() override;
 	void		Update(GLfloat deltatime) override;
 
 	void		SetText(std::string text);

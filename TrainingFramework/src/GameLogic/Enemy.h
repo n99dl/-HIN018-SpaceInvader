@@ -7,6 +7,10 @@ class Enemy :
 protected:
     int m_Hp;
     int m_Speed;
+    int m_As;
+    float m_currentTime;
+    Vector2 m_MovePatern;
+    Vector2 m_BulletPatern;
     void CheckAlive();
     virtual void Die();
     void DropItem();
@@ -19,5 +23,6 @@ public:
     void SetPosition(Vector2 Position);
     void Move(float delta);
     void DamageBy(std::shared_ptr<Bullet> _Bullet);
+    virtual void Shoot();
 };
 

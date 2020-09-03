@@ -19,6 +19,9 @@
     <Filter Include="TrainingFramework\src\GameLogic">
       <UniqueIdentifier>{ac362628-7c3a-4fe9-940f-f19835ee49d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TrainingFramework\src\GameLogic\ObjectsPool">
+      <UniqueIdentifier>{eaf88bb1-d848-46fb-ba55-c0b3cdf98ac5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -98,6 +101,12 @@
     </ClCompile>
     <ClCompile Include="src\GameLogic\Item.cpp">
       <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\AnimationSprite.cpp">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameLogic\ObjectPool\Animation.cpp">
+      <Filter>TrainingFramework\src\GameLogic\ObjectsPool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +199,12 @@
     </ClInclude>
     <ClInclude Include="src\GameLogic\Item.h">
       <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\AnimationSprite.h">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogic\ObjectPool\Animation.h">
+      <Filter>TrainingFramework\src\GameLogic\ObjectsPool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,5 +10,6 @@ public:
     DarkPlane(float hPosition);
     ~DarkPlane();
     void Update(float dt);
+    void Shoot();
 };
 

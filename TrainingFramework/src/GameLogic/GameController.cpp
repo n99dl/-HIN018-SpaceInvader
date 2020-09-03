@@ -37,11 +37,19 @@ void GameController::Draw()
 	{
 		it->Draw();
 	}
-	for (auto it : m_listBullet)
+	for (auto it : m_listPlayerBullet)
 	{
 		it->Draw();
 	}
 	for (auto it : m_listItem)
+	{
+		it->Draw();
+	}
+	for (auto it : m_listAnimation)
+	{
+		it->Draw();
+	}
+	for (auto it : m_listEnemyBullet)
 	{
 		it->Draw();
 	}
@@ -89,16 +97,33 @@ void GameController::Update(float dt)
 			}
 		}
 	}
-	//Update Bullet
+	//Update PBullet
 	{
-		std::list<std::shared_ptr<Bullet>>::iterator i = m_listBullet.begin();
-		while (i != m_listBullet.end())
+		std::list<std::shared_ptr<Bullet>>::iterator i = m_listPlayerBullet.begin();
+		while (i != m_listPlayerBullet.end())
 		{
 			(*i)->Update(dt);
 			bool isActive = (*i)->isActive();
 			if (!isActive)
 			{
-				m_listBullet.erase(i++);  // alternatively, i = items.erase(i);
+				m_listPlayerBullet.erase(i++);  // alternatively, i = items.erase(i);
+			}
+			else
+			{
+				++i;
+			}
+		}
+	}
+	//Update EBullet
+	{
+		std::list<std::shared_ptr<Bullet>>::iterator i = m_listEnemyBullet.begin();
+		while (i != m_listEnemyBullet.end())
+		{
+			(*i)->Update(dt);
+			bool isActive = (*i)->isActive();
+			if (!isActive)
+			{
+				m_listEnemyBullet.erase(i++);  // alternatively, i = items.erase(i);
 			}
 			else
 			{
@@ -123,10 +148,27 @@ void GameController::Update(float dt)
 			}
 		}
 	}
+	//Update Animation
+	{
+		std::list<std::shared_ptr<AnimationSprite>>::iterator i = m_listAnimation.begin();
+		while (i != m_listAnimation.end())
+		{
+			(*i)->Update(dt);
+			bool isActive = (*i)->IsActive();
+			if (!isActive)
+			{
+				m_listAnimation.erase(i++);  // alternatively, i = items.erase(i);
+			}
+			else
+			{
+				++i;
+			}
+		}
+	}
 	//Collision Check
 	for (auto enemy : m_listEnemy)
 	{
-		for (auto bullet : m_listBullet)
+		for (auto bullet : m_listPlayerBullet)
 			if (bullet->IsCollide(enemy))
 			{
 				enemy->DamageBy(bullet);
@@ -140,6 +182,15 @@ void GameController::Update(float dt)
 		{
 			m_Player->ConsumeItem(item);
 			item->Destroy();
+		}
+	}
+
+	for (auto bullet : m_listEnemyBullet)
+	{
+		if (bullet->IsCollide(m_Player))
+		{
+			m_Player->DamageBy(bullet);
+			bullet->SelfDestruct();
 		}
 	}
 }
@@ -206,9 +257,14 @@ std::shared_ptr<Player> GameController::GetPlayer()
 	return std::shared_ptr<Player>();
 }
 
-void GameController::AddBullet(std::shared_ptr<Bullet> NewBullet)
+void GameController::AddPlayerBullet(std::shared_ptr<Bullet> NewBullet)
 {
-	m_listBullet.push_back(NewBullet);
+	m_listPlayerBullet.push_back(NewBullet);
+}
+
+void GameController::AddEnemyBullet(std::shared_ptr<Bullet> NewBullet)
+{
+	m_listEnemyBullet.push_back(NewBullet);
 }
 
 void GameController::AddItem(std::shared_ptr<Item> NewItem)
@@ -219,6 +275,16 @@ void GameController::AddItem(std::shared_ptr<Item> NewItem)
 void GameController::AddScore(int amount)
 {
 	m_Score += amount;
+}
+
+void GameController::AddAnimation(std::shared_ptr<AnimationSprite> NewAnimation)
+{
+	m_listAnimation.push_back(NewAnimation);
+}
+
+int GameController::GetPlayerHp()
+{
+	return m_Player->GetHp();
 }
 
 int GameController::GetScore()

@@ -36,11 +36,16 @@ void GSPlay::Init()
 	m_BackGround->SetSize(screenWidth, screenHeight);
 
 
-	//text game title
+	//score game title
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
 	m_score = std::make_shared< Text>(shader, font, "Score: 10", TEXT_COLOR::RED, 1.0);
 	m_score->Set2DPosition(Vector2(5, 25));
+
+	//score game title
+	font = ResourceManagers::GetInstance()->GetFont("arialbd");
+	m_Hp = std::make_shared< Text>(shader, font, "Hp: 100", TEXT_COLOR::RED, 0.5);
+	m_Hp->Set2DPosition(Vector2(5, screenHeight - 20));
 	
 	//GameController
 
@@ -85,12 +90,15 @@ void GSPlay::Update(float deltaTime)
 	GameController::GetInstance()->Update(deltaTime);
 	std::string  score = std::to_string(GameController::GetInstance()->GetScore());
 	m_score->setText("Score :" + score);
+	std::string playerHp = std::to_string(GameController::GetInstance()->GetPlayerHp());
+	m_Hp->setText("Hp: " + playerHp);
 }
 
 void GSPlay::Draw()
 {
 	m_BackGround->Draw();
 	m_score->Draw();
+	m_Hp->Draw();
 	GameController::GetInstance()->Draw();
 }
 

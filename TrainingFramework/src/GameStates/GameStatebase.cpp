@@ -32,4 +32,4 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateTypes stt)
 		break;
 	}
 	return gs;
-}
+} 

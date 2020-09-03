@@ -18,6 +18,7 @@ public:
 	bool isActive();
 	std::shared_ptr<HitBox> GetHitBox();
 	bool IsCollide(std::shared_ptr<Entity> _Entity);
+	Vector2 GetPosition();
 protected:
 	std::shared_ptr<HitBox> m_HitBox;
 	bool m_isActive;

@@ -19,6 +19,13 @@ void Enemy::Die()
 	m_isActive = false;
 	srand(time(NULL));
 	int odd = rand() % 4; //Let Fix value for now
+	auto texture = ResourceManagers::GetInstance()->GetTexture("red_explosion");
+	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader"); 
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+	std::shared_ptr<AnimationSprite> Explosion = std::make_shared<AnimationSprite>(model, shader, texture, RE_NUM_FRAME, RE_FRAME_TIME, false);
+	Explosion->Set2DPosition(m_Position);
+	Explosion->SetSize(RE_SIZE, RE_SIZE);
+	GameController::GetInstance()->AddAnimation(Explosion);
 	if (!odd)
 	DropItem();
 }
@@ -35,6 +42,10 @@ Enemy::Enemy()
 {
 	std::cout << "Enemy created\n";
 	m_isActive = true;
+	m_MovePatern = Vector2(0, 1);
+	srand(time(NULL));
+	float random = rand() % 20;
+	m_currentTime = 0.1f * random;
 }
 
 Enemy::Enemy(Vector2 Position)
@@ -58,6 +69,12 @@ void Enemy::Update(float dt)
 	m_Sprite->Update(dt);
 	m_HitBox->SetPosition(m_Position);
 	CheckAlive();
+	m_currentTime += dt;
+	if (m_currentTime >= m_As)
+	{
+		Shoot();
+		m_currentTime -= m_As;
+	}
 }
 
 void Enemy::SetPosition(Vector2 Position)
@@ -67,7 +84,7 @@ void Enemy::SetPosition(Vector2 Position)
 
 void Enemy::Move(float delta)
 {
-	m_Position += Vector2(0, m_Speed * delta);
+	m_Position += m_MovePatern * delta * m_Speed;
 }
 
 void Enemy::DamageBy(std::shared_ptr<Bullet> _Bullet)
@@ -76,5 +93,18 @@ void Enemy::DamageBy(std::shared_ptr<Bullet> _Bullet)
 		return;
 	std::cout << "Get shot by " << _Bullet->GetID() << "\n";
 	m_Hp -= _Bullet->GetPower();
+	//impact effect
+	auto texture = ResourceManagers::GetInstance()->GetTexture("impact");
+	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+	std::shared_ptr<AnimationSprite> impactAnimation = std::make_shared<AnimationSprite>(model, shader, texture, I_NUM_FRAME, I_FRAME_TIME, false);
+	impactAnimation->Set2DPosition(_Bullet->GetPosition());
+	impactAnimation->SetSize(I_SIZE, I_SIZE);
+	GameController::GetInstance()->AddAnimation(impactAnimation);
+}
+
+void Enemy::Shoot()
+{
+	std::cout << "Enemy class shoot\n";
 }
 
