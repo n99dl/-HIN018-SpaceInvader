@@ -31,7 +31,7 @@ int Texture::Init(const char *szFileName,GLuint iWapMode,GLuint iFilterMode)
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,iFilterMode);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,iFilterMode);
 
-	if((iFilterMode== GL_LINEAR_MIPMAP_LINEAR)||(iFilterMode== GL_LINEAR_MIPMAP_NEAREST)|| (iFilterMode== GL_NEAREST_MIPMAP_LINEAR)||(iFilterMode== GL_NEAREST_MIPMAP_NEAREST))
+	if((iFilterMode== GL_LINEAR_MIPMAP_LINEAR)||(iFilterMode== GL_NEAREST)|| (iFilterMode== GL_NEAREST_MIPMAP_LINEAR)||(iFilterMode== GL_NEAREST_MIPMAP_NEAREST))
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D,0);

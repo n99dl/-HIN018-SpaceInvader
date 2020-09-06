@@ -4,6 +4,10 @@
 #include <GameLogic\Bullet.h>
 #include <GameLogic\GameController.h>
 
+#define STRAIGHT 0
+#define LEAN_LEFT 1
+#define LEAN_RIGHT 2
+
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
 
@@ -16,6 +20,34 @@ void Player::Update(float dt)
 {
 	if (m_IsShooting)
 		Shoot();
+	Vector2 OldPosition = m_Sprite->Get2DPosition();
+	m_leanCooldown -= dt;
+	m_leanCooldown = max(m_leanCooldown, 0.0f);
+	if (m_Position.x - OldPosition.x > 0.0f)
+	{
+		if (m_spriteState != LEAN_RIGHT)
+		{
+			LeanRight();
+			m_spriteState = LEAN_RIGHT;
+		}
+		m_leanCooldown = 0.1f;
+	} else
+		if (m_Position.x - OldPosition.x < -0.0f)
+		{
+			if (m_spriteState != LEAN_LEFT)
+			{
+				LeanLeft();
+				m_spriteState = LEAN_LEFT;
+			}
+			m_leanCooldown = 0.1f;
+		}
+		else
+			if (m_spriteState != STRAIGHT && m_leanCooldown == 0.0f)
+			{
+				BackStraight();
+				m_spriteState = STRAIGHT;
+			}
+
 	m_Sprite->Set2DPosition(m_Position);
 	m_Sprite->Update(dt);
 	m_HitBox->SetPosition(m_Position);
@@ -115,6 +147,11 @@ int Player::GetHp()
 	return m_Hp;
 }
 
+void Player::Die()
+{
+
+}
+
 
 void Player::FixPosition()
 {
@@ -158,15 +195,49 @@ void Player::ShootRear()
 	GameController::GetInstance()->AddPlayerBullet(NewBullet2);
 }
 
+void Player::LeanLeft()
+{
+	std::cout << "Lean left\n";
+	m_Sprite = m_leftSprite;
+}
+
+void Player::LeanRight()
+{
+	std::cout << "Lean Right\n";
+	m_Sprite = m_rightSprite;
+}
+
+void Player::BackStraight()
+{
+	m_Sprite = m_straightSprite;
+}
+
 Player::Player()
 {
 	m_Position = START_POSITION;
+	//Base sprite
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("plane_blue");
-	m_Sprite = std::make_shared<Sprite2D>(model, shader, texture);
-	m_Sprite->SetSize(SIZE_X, SIZE_Y);
+	//auto texture = ResourceManagers::GetInstance()->GetTexture("plane_blue");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("pixel_player");
+	m_straightSprite = std::make_shared<Sprite2D>(model, shader, texture);
+	m_straightSprite->SetSize(SIZE_X, SIZE_Y);
+
+	//Lean Left
+	//texture = ResourceManagers::GetInstance()->GetTexture("player_lean_left");
+	texture = ResourceManagers::GetInstance()->GetTexture("pixel_player_left");
+	m_leftSprite = std::make_shared<Sprite2D>(model, shader, texture);
+	m_leftSprite->SetSize(SIZE_X, SIZE_Y);
+
+	// lean right
+	//texture = ResourceManagers::GetInstance()->GetTexture("player_lean_right");
+	texture = ResourceManagers::GetInstance()->GetTexture("pixel_player_right");
+	m_rightSprite = std::make_shared<Sprite2D>(model, shader, texture);
+	m_rightSprite->SetSize(SIZE_X, SIZE_Y);
+
+	m_Sprite = m_straightSprite;
 	m_Sprite->Set2DPosition(m_Position);
+
 	m_HitBox = std::make_shared<HitBox>(Vector2(m_Position), 
 		Vector2(SIZE_X / 2.0 - P_HITBOX_OFFSET_X, 
 				SIZE_Y / 2.0 - P_HITBOX_OFFSET_Y));
@@ -176,6 +247,8 @@ Player::Player()
 	m_ShootTime = 0;
 	m_IsShooting = 0;
 	m_AttackSpeed = BASE_ATTACK_SPEED;
+	m_spriteState = STRAIGHT;
+	m_leanCooldown = 0;
 	std::cout << "As :" << m_AttackSpeed << "\n";
 }
 

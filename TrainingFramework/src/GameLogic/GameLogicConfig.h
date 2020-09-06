@@ -11,8 +11,8 @@ extern int screenHeight; //need get on Graphic engine
 #define BASE_BULLET_SPEED 600
 #define BASE_ATTACK_SPEED 0.4
 
-#define SIZE_X 80
-#define SIZE_Y 80
+#define SIZE_X 60
+#define SIZE_Y 60
 
 #define DOUBLE_SHOOT_OFFSET 10
 #define REAR_SHOOT_OFFSET 20 
@@ -38,6 +38,10 @@ extern int screenHeight; //need get on Graphic engine
 
 #define E1_SCORE 20
 
+//Circle Plane
+
+#define E2_BASE_AS 4.0f
+#define E2_BULLET_SPEED 150
 //Bullet Config
 
 ///Type
@@ -81,3 +85,11 @@ extern int screenHeight; //need get on Graphic engine
 #define I_NUM_FRAME 3
 #define I_FRAME_TIME 0.09f
 #define I_SIZE 40
+
+
+
+
+
+
+
+# define M_PI           3.14159265358979323846

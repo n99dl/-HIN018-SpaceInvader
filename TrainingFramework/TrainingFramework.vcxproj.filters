@@ -108,6 +108,12 @@
     <ClCompile Include="src\GameLogic\ObjectPool\Animation.cpp">
       <Filter>TrainingFramework\src\GameLogic\ObjectsPool</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameLogic\CirclePlane.cpp">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParalelBackground.cpp">
+      <Filter>TrainingFramework\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -205,6 +211,12 @@
     </ClInclude>
     <ClInclude Include="src\GameLogic\ObjectPool\Animation.h">
       <Filter>TrainingFramework\src\GameLogic\ObjectsPool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogic\CirclePlane.h">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParalelBackground.h">
+      <Filter>TrainingFramework\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

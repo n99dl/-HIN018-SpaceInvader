@@ -1,12 +1,14 @@
 #include "GameController.h"
 #include "../ControlConfig.h"
 #include <GameLogic\DarkPlane.h>
+#include <GameLogic\CirclePlane.h>
 
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
 
 GameController::GameController()
 {
+	m_background = std::make_shared<ParalelBackground>();
 }
 
 GameController::~GameController()
@@ -26,12 +28,13 @@ void GameController::CreateLevel()
 
 void GameController::CreateEnemies()
 {
-	std::shared_ptr<DarkPlane> newEnemy = std::make_shared<DarkPlane>(rand() % screenWidth);
+	std::shared_ptr<CirclePlane> newEnemy = std::make_shared<CirclePlane>(rand() % screenWidth);
 	m_listEnemy.push_back(newEnemy);
 }
 
 void GameController::Draw()
 {
+	m_background->Draw();
 	m_Player->Draw();
 	for (auto it : m_listEnemy)
 	{
@@ -59,6 +62,7 @@ void GameController::Update(float dt)
 {
 	m_GameTime += dt;
 	m_EnemySpamTime += dt;
+	m_background->Update(dt);
 	//Spam enemies
 	//Temporary difficulty system (need improvement)
 	float BaseSpamTime = 2.0f;
@@ -285,6 +289,11 @@ void GameController::AddAnimation(std::shared_ptr<AnimationSprite> NewAnimation)
 int GameController::GetPlayerHp()
 {
 	return m_Player->GetHp();
+}
+
+Vector2 GameController::GetPlayerPosition()
+{
+	return m_Player->GetPosition();
 }
 
 int GameController::GetScore()

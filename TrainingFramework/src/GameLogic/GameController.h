@@ -5,6 +5,7 @@
 #include <GameLogic\Bullet.h>
 #include <GameLogic\Item.h>
 #include <AnimationSprite.h>
+#include <ParalelBackground.h>
 
 class GameController: public CSingleton<GameController>
 {
@@ -25,6 +26,7 @@ public:
 	void AddScore(int amount);
 	void AddAnimation(std::shared_ptr<AnimationSprite> NewAnimation);
 	int GetPlayerHp();
+	Vector2 GetPlayerPosition();
 	int GetScore();
 private:
 	std::shared_ptr<Player> m_Player;
@@ -33,6 +35,7 @@ private:
 	std::list<std::shared_ptr<Bullet>> m_listEnemyBullet;
 	std::list<std::shared_ptr<Item>> m_listItem;
 	std::list<std::shared_ptr<AnimationSprite>> m_listAnimation;
+	std::shared_ptr<ParalelBackground> m_background;
 	int KeyPressed = 0;
 	int m_Score = 0;
 	float m_GameTime = 0;
