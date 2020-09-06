@@ -96,10 +96,9 @@ void GSPlay::Update(float deltaTime)
 
 void GSPlay::Draw()
 {
-	m_BackGround->Draw();
+	GameController::GetInstance()->Draw();
 	m_score->Draw();
 	m_Hp->Draw();
-	GameController::GetInstance()->Draw();
 }
 
 void GSPlay::SetNewPostionForBullet()
