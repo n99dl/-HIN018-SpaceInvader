@@ -219,19 +219,19 @@ Player::Player()
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	//auto texture = ResourceManagers::GetInstance()->GetTexture("plane_blue");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("pixel_player");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("plane_blue");
 	m_straightSprite = std::make_shared<Sprite2D>(model, shader, texture);
 	m_straightSprite->SetSize(SIZE_X, SIZE_Y);
 
 	//Lean Left
 	//texture = ResourceManagers::GetInstance()->GetTexture("player_lean_left");
-	texture = ResourceManagers::GetInstance()->GetTexture("pixel_player_left");
+	texture = ResourceManagers::GetInstance()->GetTexture("player_left");
 	m_leftSprite = std::make_shared<Sprite2D>(model, shader, texture);
 	m_leftSprite->SetSize(SIZE_X, SIZE_Y);
 
 	// lean right
 	//texture = ResourceManagers::GetInstance()->GetTexture("player_lean_right");
-	texture = ResourceManagers::GetInstance()->GetTexture("pixel_player_right");
+	texture = ResourceManagers::GetInstance()->GetTexture("player_right");
 	m_rightSprite = std::make_shared<Sprite2D>(model, shader, texture);
 	m_rightSprite->SetSize(SIZE_X, SIZE_Y);
 

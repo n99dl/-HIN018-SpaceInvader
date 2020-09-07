@@ -7,7 +7,7 @@ private:
     void Die();
 public:
     CirclePlane();
-    CirclePlane(float hPosition);
+    CirclePlane(float vPosition);
     ~CirclePlane();
     void Update(float dt);
     void Shoot();

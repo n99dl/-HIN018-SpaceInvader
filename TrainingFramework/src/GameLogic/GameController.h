@@ -25,6 +25,7 @@ public:
 	void AddItem(std::shared_ptr<Item> NewItem);
 	void AddScore(int amount);
 	void AddAnimation(std::shared_ptr<AnimationSprite> NewAnimation);
+	void SpamMinion();
 	int GetPlayerHp();
 	Vector2 GetPlayerPosition();
 	int GetScore();

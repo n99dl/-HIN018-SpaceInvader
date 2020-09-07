@@ -69,11 +69,11 @@ void GSMenu::Init()
 	m_listButton.push_back(button);
 
 	//test animation
-	texture = ResourceManagers::GetInstance()->GetTexture("explosion");
-	shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
-	m_AnimationTest = std::make_shared<AnimationSprite>(model, shader, texture, 9, 0.1f, false);
-	m_AnimationTest->Set2DPosition(100, 200);
-	m_AnimationTest->SetSize(64, 64);
+	//texture = ResourceManagers::GetInstance()->GetTexture("explosion");
+	//shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	//m_AnimationTest = std::make_shared<AnimationSprite>(model, shader, texture, 9, 0.1f, false);
+	//m_AnimationTest->Set2DPosition(100, 200);
+	//m_AnimationTest->SetSize(64, 64);
 
 	//text game title
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
@@ -124,7 +124,6 @@ void GSMenu::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
-	m_AnimationTest->Update(deltaTime);
 }
 
 void GSMenu::Draw()
@@ -135,5 +134,4 @@ void GSMenu::Draw()
 		it->Draw();
 	}
 	m_Text_gameName->Draw();
-	m_AnimationTest->Draw();
 }

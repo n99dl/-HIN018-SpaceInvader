@@ -7,6 +7,9 @@ protected:
     int m_Speed;
     Vector2 m_BulletPatern;
     int m_Power;
+    bool m_IsHoming;
+    float m_HomingCooldown;
+    void ReCalculateBulletPatern();
 public:
     Bullet();
     Bullet(int type);
@@ -18,6 +21,7 @@ public:
     void SetBulletPatern(Vector2 BulletPatern);
     void SetBulletSpeed(int Speed);
     void Move(float dt);
+    void EnableHoming();
     int GetPower();
     void SelfDestruct();
     static std::shared_ptr<Bullet> Create(Vector2 Position);

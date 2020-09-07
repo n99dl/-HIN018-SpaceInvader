@@ -1,6 +1,16 @@
 #include "Bullet.h"
 #include "GameLogicConfig.h"
 #include "ResourceManagers.h"
+#include "GameController.h"
+#include <GameLogic\GL_Utility.h>
+
+void Bullet::ReCalculateBulletPatern()
+{
+	Vector2 p_Position = GameController::GetInstance()->GetPlayerPosition();
+	Vector2 p_BulletPatern = GL_Utility::GetMoveVector(m_Position, p_Position);
+	p_BulletPatern = (p_BulletPatern + m_BulletPatern * 9.0) / 10.0;
+	m_BulletPatern = p_BulletPatern;
+}
 
 Bullet::Bullet()
 {
@@ -8,6 +18,8 @@ Bullet::Bullet()
 	m_Speed = BASE_BULLET_SPEED;
 	m_Power = BASE_BULLET_POWER;
 	m_BulletPatern = Vector2(0, -1); //Move Upward
+	m_IsHoming = false;
+	m_HomingCooldown = 0.0f;
 }
 Bullet::Bullet(int type) : Bullet()
 {
@@ -28,6 +40,15 @@ Bullet::Bullet(int type) : Bullet()
 		m_HitBox = std::make_shared<HitBox>(Vector2(m_Position), Vector2(E1B_SIZE_X / 2.0 - 5, E1B_SIZE_Y / 2.0 - 5));
 		xSize = E1B_SIZE_X;
 		ySize = E1B_SIZE_Y;
+		break;
+	case E3_BULLET:
+		texture = ResourceManagers::GetInstance()->GetTexture("enemy_bullet");
+		m_HitBox = std::make_shared<HitBox>(Vector2(m_Position), Vector2(E1B_SIZE_X / 2.0 - 5, E1B_SIZE_Y / 2.0 - 5));
+		xSize = E1B_SIZE_X;
+		ySize = E1B_SIZE_Y;
+		m_Power = E3_BULLET_POWER;
+		m_BulletPatern = Vector2(0, 1);
+		EnableHoming();
 		break;
 	default:
 		break;
@@ -56,6 +77,16 @@ void Bullet::Draw()
 
 void Bullet::Update(float dt)
 {
+	if (m_IsHoming)
+	{
+		if (m_HomingCooldown <= 0)
+		{
+			ReCalculateBulletPatern();
+			m_HomingCooldown += HOMING_COOLDOWN;
+		}
+		else
+			m_HomingCooldown -= dt;
+	}
 	Move(dt);
 	m_Sprite->Set2DPosition(m_Position);
 	m_Sprite->Update(dt);
@@ -81,6 +112,11 @@ void Bullet::SetBulletSpeed(int Speed)
 void Bullet::Move(float dt)
 {
 	m_Position += m_BulletPatern * m_Speed * dt;
+}
+
+void Bullet::EnableHoming()
+{
+	m_IsHoming = true;
 }
 
 int Bullet::GetPower()

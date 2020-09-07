@@ -36,7 +36,10 @@ int Entity::GetAvailableID()
 
 bool Entity::OutOfWindow(Vector2 Position)
 {
-	if (Position.x < 0 || Position.x > screenWidth || Position.y < 0 || Position.y > screenHeight)
+	int offsetX = 50;
+	int offsetY = 50;
+	if (Position.x < 0 || Position.x > screenWidth 
+		|| Position.y < -offsetY || Position.y > screenHeight)
 		return true;
 	return false;
 }

@@ -114,6 +114,12 @@
     <ClCompile Include="src\ParalelBackground.cpp">
       <Filter>TrainingFramework\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameLogic\GL_Utility.cpp">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameLogic\Motor.cpp">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -217,6 +223,12 @@
     </ClInclude>
     <ClInclude Include="src\ParalelBackground.h">
       <Filter>TrainingFramework\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogic\GL_Utility.h">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogic\Motor.h">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

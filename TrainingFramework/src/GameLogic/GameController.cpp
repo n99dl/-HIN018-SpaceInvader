@@ -2,6 +2,8 @@
 #include "../ControlConfig.h"
 #include <GameLogic\DarkPlane.h>
 #include <GameLogic\CirclePlane.h>
+#include <time.h>
+#include <GameLogic\Motor.h>
 
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
@@ -24,12 +26,45 @@ void GameController::CreatePlayer()
 void GameController::CreateLevel()
 {
 	CreatePlayer();
+
+	std::shared_ptr<Motor> newEnemy;
+	newEnemy = std::make_shared<Motor>(Vector2(200, 200));
+	m_listEnemy.push_back(newEnemy);
 }
 
 void GameController::CreateEnemies()
 {
-	std::shared_ptr<CirclePlane> newEnemy = std::make_shared<CirclePlane>(rand() % screenWidth);
-	m_listEnemy.push_back(newEnemy);
+	float odd = ((float)(rand() % 1000)) / 1000.0;
+	//Dark Plane Spam
+	if (odd >= 1.0 - E1_ODD)
+	{
+		std::shared_ptr<DarkPlane> newEnemy;
+		newEnemy = std::make_shared<DarkPlane>( 30 + rand() % (screenWidth - 30));
+		m_listEnemy.push_back(newEnemy);
+	}
+
+	//Circle Plane Spam
+	odd = ((float)(rand() % 1000)) / 1000.0;
+	if (m_Score >= 500)
+	{
+		if (odd >= 1.0 - E2_ODD)
+		{
+			std::shared_ptr<CirclePlane> newEnemy;
+			newEnemy = std::make_shared<CirclePlane>(rand() % 270 + 30);
+			m_listEnemy.push_back(newEnemy);
+		}
+	}
+	//Motor Spam
+	odd = ((float)(rand() % 1000)) / 1000.0;
+	if (m_Score >= 10)
+	{
+		if (odd >= 1.0 - E3_ODD)
+		{
+			std::shared_ptr<Motor> newEnemy;
+			newEnemy = std::make_shared<Motor>();
+			m_listEnemy.push_back(newEnemy);
+		}
+	}
 }
 
 void GameController::Draw()
@@ -65,18 +100,7 @@ void GameController::Update(float dt)
 	m_background->Update(dt);
 	//Spam enemies
 	//Temporary difficulty system (need improvement)
-	float BaseSpamTime = 2.0f;
-	if (m_Score > 100)
-		BaseSpamTime = 1.5f;
-	if (m_Score > 200)
-		BaseSpamTime = 1.0f;
-	if (m_Score > 300)
-		BaseSpamTime = 0.5f;
-	if (m_EnemySpamTime > BaseSpamTime)
-	{
-		CreateEnemies();
-		m_EnemySpamTime -= BaseSpamTime;
-	}
+	//SpamMinion();
 	//Update Player
 	m_Player->Move(KeyPressed, dt);
 	/*if (KeyPressed & SHOOT)
@@ -284,6 +308,22 @@ void GameController::AddScore(int amount)
 void GameController::AddAnimation(std::shared_ptr<AnimationSprite> NewAnimation)
 {
 	m_listAnimation.push_back(NewAnimation);
+}
+
+void GameController::SpamMinion()
+{
+	float BaseSpamTime = 2.0f;
+	if (m_Score > 300)
+		BaseSpamTime = 1.5f;
+	if (m_Score > 1000)
+		BaseSpamTime = 1.0f;
+	if (m_Score > 2000)
+		BaseSpamTime = 0.8f;
+	if (m_EnemySpamTime > BaseSpamTime)
+	{
+		CreateEnemies();
+		m_EnemySpamTime -= BaseSpamTime;
+	}
 }
 
 int GameController::GetPlayerHp()
