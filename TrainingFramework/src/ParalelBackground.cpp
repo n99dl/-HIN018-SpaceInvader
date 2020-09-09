@@ -7,12 +7,12 @@
 ParalelBackground::ParalelBackground()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("play_background");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("pixel_background");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	m_Sprite1 = std::make_shared<Sprite2D>(model, shader, texture);
 	m_Sprite2 = std::make_shared<Sprite2D>(model, shader, texture);
-	m_Sprite1->SetSize(576, 720);
-	m_Sprite2->SetSize(576, 720);
+	m_Sprite1->SetSize(630, 720);
+	m_Sprite2->SetSize(630, 720);
 	m_Sprite2->Set2DPosition(480/2, BOTTOM);
 	m_Sprite1->Set2DPosition(480/2, 720/2);
 }

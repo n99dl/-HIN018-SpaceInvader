@@ -17,3 +17,9 @@ Vector2 GL_Utility::GetMoveVector(Vector2 firstPoint, Vector2 secondPoint)
 	Vector2 p_BulletPatern = Vector2(sinf(theta), cosf(theta)) * 1.0;
 	return p_BulletPatern;
 }
+
+Vector2 GL_Utility::GetMoveVector(float angle)
+{
+	Vector2 p_BulletPatern = Vector2(sinf(angle), cosf(angle)) * 1.0;
+	return p_BulletPatern;
+}

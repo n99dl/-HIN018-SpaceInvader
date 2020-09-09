@@ -120,6 +120,9 @@
     <ClCompile Include="src\GameLogic\Motor.cpp">
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameLogic\ImperialSpaceShip.cpp">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -228,6 +231,9 @@
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClInclude>
     <ClInclude Include="src\GameLogic\Motor.h">
+      <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogic\ImperialSpaceShip.h">
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,12 +9,12 @@ Entity::Entity()
 	m_Position = Vector2(0, 0);
 	m_id = Entity::GetAvailableID();
 	m_HitBox = std::make_shared<HitBox>();
-	std::cout << "Entity created "<<m_id<<"\n";
+	//std::cout << "Entity created "<<m_id<<"\n";
 }
 
 Entity::~Entity()
 {
-	std::cout << "Entity " << m_id << " destroyed!\n";
+	//std::cout << "Entity " << m_id << " destroyed!\n";
 }
 
 int Entity::GetID()
@@ -36,8 +36,8 @@ int Entity::GetAvailableID()
 
 bool Entity::OutOfWindow(Vector2 Position)
 {
-	int offsetX = 50;
-	int offsetY = 50;
+	int offsetX = 300;
+	int offsetY = 300;
 	if (Position.x < 0 || Position.x > screenWidth 
 		|| Position.y < -offsetY || Position.y > screenHeight)
 		return true;

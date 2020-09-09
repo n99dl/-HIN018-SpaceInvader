@@ -269,6 +269,7 @@
     <ClCompile Include="src\GameLogic\GameController.cpp" />
     <ClCompile Include="src\GameLogic\GL_Utility.cpp" />
     <ClCompile Include="src\GameLogic\HitBox.cpp" />
+    <ClCompile Include="src\GameLogic\ImperialSpaceShip.cpp" />
     <ClCompile Include="src\GameLogic\Item.cpp" />
     <ClCompile Include="src\GameLogic\Motor.cpp" />
     <ClCompile Include="src\GameLogic\ObjectPool\Animation.cpp" />
@@ -305,6 +306,7 @@
     <ClInclude Include="src\GameLogic\GameController.h" />
     <ClInclude Include="src\GameLogic\GL_Utility.h" />
     <ClInclude Include="src\GameLogic\HitBox.h" />
+    <ClInclude Include="src\GameLogic\ImperialSpaceShip.h" />
     <ClInclude Include="src\GameLogic\Item.h" />
     <ClInclude Include="src\GameLogic\Motor.h" />
     <ClInclude Include="src\GameLogic\ObjectPool\Animation.h" />

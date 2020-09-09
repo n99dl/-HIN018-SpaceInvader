@@ -6,5 +6,6 @@ public:
 	static float GetAngle(Vector2 vec);
 	static float GetAngle(Vector2 firstPoint, Vector2 secondPoint);
 	static Vector2 GetMoveVector(Vector2 firstPoint, Vector2 secondPoint);
+	static Vector2 GetMoveVector(float angle);
 };
 

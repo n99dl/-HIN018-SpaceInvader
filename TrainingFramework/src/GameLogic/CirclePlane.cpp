@@ -33,6 +33,7 @@ CirclePlane::CirclePlane()
 	m_MovePatern = Vector2(0, 1);
 	//E1 bullet pattern
 	m_BulletPatern = Vector2(0, 1);
+	m_itemOdd = E2_ITEM_ODD;
 }
 
 CirclePlane::CirclePlane(float vPosition) : CirclePlane()
@@ -52,8 +53,25 @@ CirclePlane::CirclePlane(float vPosition) : CirclePlane()
 	}
 }
 
+CirclePlane::CirclePlane(float vPosition, int type) : CirclePlane()
+{
+	m_Position.y = vPosition;
+	switch (type)
+	{
+	case E2_TYPE_LEFT:
+		m_Position.x = 0;
+		m_MovePatern = Vector2(1, 0);
+		break;
+	case E2_TYPE_RIGHT:
+		m_Position.x = screenWidth;
+		m_MovePatern = Vector2(-1, 0);
+		break;
+	}
+}
+
 CirclePlane::~CirclePlane()
 {
+
 }
 
 void CirclePlane::Update(float dt)

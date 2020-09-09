@@ -12,6 +12,7 @@ void Motor::Die()
 {
 	std::cout << "Motor die\n";
 	GameController::GetInstance()->AddScore(E3_SCORE);
+	GameController::GetInstance()->AlertMotorDestroyed();
 	Enemy::Die();
 }
 
@@ -34,8 +35,8 @@ Motor::Motor()
 	auto texture = ResourceManagers::GetInstance()->GetTexture("motor");
 	m_Sprite = std::make_shared<Sprite2D>(model, shader, texture);	
 	m_Sprite->SetSize(E3_SIZE_X, E3_SIZE_Y);
-	m_HitBox = std::make_shared<HitBox>(m_Position, Vector2(E3_SIZE_X / 2.0 + E1_SIZE_X_OFFSET,
-		E3_SIZE_Y / 2.0 + E1_SIZE_Y_OFFSET));
+	m_HitBox = std::make_shared<HitBox>(m_Position, Vector2(E3_SIZE_X / 2.0 - E3_OFFSET_X,
+		E3_SIZE_Y / 2.0 - E3_OFFSET_Y));
 	m_Sprite->Set2DPosition(m_Position);
 	m_Speed = E1_BASE_SPEED;
 	m_Hp = E3_HP;
@@ -50,6 +51,7 @@ Motor::Motor()
 	m_IsIdling = false;
 	GenerateDestination();
 	m_MovePatern = GL_Utility::GetMoveVector(m_Position, m_Destination);
+	m_itemOdd = E3_ITEM_ODD;
 }
 
 Motor::Motor(Vector2 Position) : Motor()

@@ -7,7 +7,8 @@ class Enemy :
 protected:
     int m_Hp;
     int m_Speed;
-    int m_As;
+    int m_itemOdd;
+    float m_As;
     float m_currentTime;
     Vector2 m_MovePatern;
     Vector2 m_BulletPatern;

@@ -22,7 +22,7 @@ DarkPlane::DarkPlane()
 	m_Sprite = std::make_shared<Sprite2D>(model, shader, texture);
 	m_Sprite->SetSize(E1_SIZE_X, E1_SIZE_Y);
 	m_HitBox = std::make_shared<HitBox>(m_Position, Vector2(E1_SIZE_X / 2.0 + E1_SIZE_X_OFFSET,
-															E1_SIZE_Y / 2.0 + E1_SIZE_Y_OFFSET));
+		E1_SIZE_Y / 2.0 + E1_SIZE_Y_OFFSET));
 	m_Sprite->Set2DPosition(m_Position);
 	m_Speed = E1_BASE_SPEED;
 	m_Hp = E1_BASE_HP;
@@ -31,6 +31,9 @@ DarkPlane::DarkPlane()
 	m_MovePatern = Vector2(0, 1);
 	//E1 bullet pattern
 	m_BulletPatern = Vector2(0, 1);
+	int duration_in_int = m_As * 10;
+	m_currentTime = (rand() % duration_in_int) * 0.1;
+	m_itemOdd = E1_ITEM_ODD;
 }
 
 DarkPlane::DarkPlane(float hPosition) : DarkPlane()

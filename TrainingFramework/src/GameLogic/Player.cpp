@@ -110,7 +110,7 @@ void Player::PowerUp()
 {
 	if (m_WeaponLevel < 3)
 		m_WeaponLevel++;
-	else if (m_AttackSpeed > 0.1)
+	else if (m_AttackSpeed > 0.2)
 		m_AttackSpeed -= 0.05;
 }
 

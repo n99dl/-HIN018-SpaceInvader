@@ -18,7 +18,7 @@ void Enemy::Die()
 {
 	m_isActive = false;
 	srand(time(NULL));
-	int odd = rand() % 4; //Let Fix value for now
+	int odd = rand() % m_itemOdd; //Let Fix value for now
 	auto texture = ResourceManagers::GetInstance()->GetTexture("red_explosion");
 	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader"); 
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
@@ -46,6 +46,7 @@ Enemy::Enemy()
 	srand(time(NULL));
 	float random = rand() % 20;
 	m_currentTime = 0.1f * random;
+	m_itemOdd = 10;
 }
 
 Enemy::Enemy(Vector2 Position)

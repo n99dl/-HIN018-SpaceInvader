@@ -12,4 +12,3 @@ public:
     void Update(float dt);
     void Shoot();
 };
-

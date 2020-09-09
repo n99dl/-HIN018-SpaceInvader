@@ -36,13 +36,14 @@ extern int screenHeight; //need get on Graphic engine
 
 #define E1_SIZE_Y_OFFSET -10
 #define E1_SIZE_X_OFFSET -5
+#define E1_ITEM_ODD 8
 
 #define E1_SCORE 20
 
 //Circle Plane
 
 #define E2_ODD 0.5
-#define E2_BASE_HP 50
+#define E2_BASE_HP 70
 #define E2_START_POSITION Vector2(0, 30)
 #define E2_TYPE_LEFT 0
 #define E2_TYPE_RIGHT 1
@@ -50,6 +51,7 @@ extern int screenHeight; //need get on Graphic engine
 #define E2_BASE_AS 2.5f
 #define E2_BULLET_SPEED 150
 
+#define E2_ITEM_ODD 4
 #define E2_SCORE 50
 
 
@@ -64,6 +66,33 @@ extern int screenHeight; //need get on Graphic engine
 #define E3_SIZE_Y 100
 #define E3_BASE_AS 5.0f
 #define E3_SCORE 500
+
+#define E3_OFFSET_X 30
+#define E3_OFFSET_Y 30
+
+#define E3_ITEM_ODD 1
+
+//IMPERIAL SPACESHIP
+
+#define E4_FIRST_PHASE 0
+#define E4_SECOND_PHASE 1
+#define E4_LAST_PHASE 2
+#define E4_HP_1 1000
+#define E4_HP_2 2000
+#define E4_HP_3 3000
+#define E4_BASE_SPEED 200
+#define E4_SUB_GUN_CD 0.6
+#define E4_CIRCLE_GUN_CD 3.5
+
+#define E4_CIRCLE_SPEED 200
+#define E4_SIZE_X 200
+#define E4_SIZE_Y 200
+
+#define E4_OFFSET_X 10
+#define E4_OFFSET_Y 30
+#define E4_SCORE 10000
+
+#define E4_START_POSITION Vector2(screenWidth / 2, - 199)
 
 //Bullet Config
 

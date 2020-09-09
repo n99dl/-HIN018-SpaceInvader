@@ -8,6 +8,7 @@ private:
 public:
     CirclePlane();
     CirclePlane(float vPosition);
+    CirclePlane(float vPosition, int type);
     ~CirclePlane();
     void Update(float dt);
     void Shoot();

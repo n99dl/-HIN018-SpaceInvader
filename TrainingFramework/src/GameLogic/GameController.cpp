@@ -4,6 +4,7 @@
 #include <GameLogic\CirclePlane.h>
 #include <time.h>
 #include <GameLogic\Motor.h>
+#include <GameLogic\ImperialSpaceShip.h>
 
 extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
@@ -26,10 +27,19 @@ void GameController::CreatePlayer()
 void GameController::CreateLevel()
 {
 	CreatePlayer();
-
-	std::shared_ptr<Motor> newEnemy;
-	newEnemy = std::make_shared<Motor>(Vector2(200, 200));
-	m_listEnemy.push_back(newEnemy);
+	m_wave = 0;
+	m_totalMotor = 0;
+	m_motorCreated = 0;
+	//cheat , teehee
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
 }
 
 void GameController::CreateEnemies()
@@ -97,10 +107,14 @@ void GameController::Update(float dt)
 {
 	m_GameTime += dt;
 	m_EnemySpamTime += dt;
+	m_SpecialEnemySpamTime += dt;
 	m_background->Update(dt);
 	//Spam enemies
 	//Temporary difficulty system (need improvement)
-	//SpamMinion();
+	if (m_totalMotor >= 0)
+		SpamMinion();
+	else
+		CreateBoss();
 	//Update Player
 	m_Player->Move(KeyPressed, dt);
 	/*if (KeyPressed & SHOOT)
@@ -312,17 +326,100 @@ void GameController::AddAnimation(std::shared_ptr<AnimationSprite> NewAnimation)
 
 void GameController::SpamMinion()
 {
-	float BaseSpamTime = 2.0f;
-	if (m_Score > 300)
-		BaseSpamTime = 1.5f;
-	if (m_Score > 1000)
-		BaseSpamTime = 1.0f;
-	if (m_Score > 2000)
-		BaseSpamTime = 0.8f;
-	if (m_EnemySpamTime > BaseSpamTime)
+	float base_spam_time = 2.0;
+	if (m_GameTime >= 3.0 && m_wave < 1)
 	{
-		CreateEnemies();
-		m_EnemySpamTime -= BaseSpamTime;
+		m_wave = 1;
+		std::cout << "set to 1\n";
+		m_EnemySpamTime = 2.0f;
+	}
+	if (m_GameTime >= 15.0 && m_wave < 2)
+	{
+		m_wave = 2;
+	}
+	if (m_GameTime >= 40.0 && m_wave < 3)
+	{
+		m_wave = 3;
+		m_SpecialEnemySpamTime = 0.0f;
+		m_EnemySpamTime = 8.0f;
+	}
+	if (m_GameTime >= 100.0 && m_wave < 4)
+	{
+		m_wave = 4;
+		m_SpecialEnemySpamTime = 0.0f;
+		m_EnemySpamTime = 2.0f;
+	}
+	float base_special_cd = 3.0; //?? name pls
+	//Wave 1
+	switch (m_wave)
+	{
+	case 1:
+		if (m_EnemySpamTime >= base_spam_time)
+		{
+			Vector2 Position = Vector2(rand() % (screenWidth - 30) + 30, -30);
+			AddDarkPlane(Position);
+			m_EnemySpamTime -= base_spam_time;
+		}
+		break;
+	case 2:
+		base_spam_time = 1.8f;
+		if (m_EnemySpamTime >= base_spam_time)
+		{
+			Vector2 Position = Vector2(rand() % (screenWidth - 30) + 30, -30);
+			AddDarkPlane(Position);
+			m_EnemySpamTime -= base_spam_time;
+			float vPos = rand() % 300;
+			AddRandomSideCirclePlane(vPos);
+		}
+		break;
+	case 3:
+		base_spam_time = 6.0f;
+		if (m_GameTime >= 60.0)
+		{
+			base_spam_time -= 1.0f;
+			base_special_cd -= 1.0f;
+		}
+		if (m_EnemySpamTime >= base_spam_time)
+		{
+			float xPos = rand() % (screenWidth - 60 * 3) + 30 * 3;
+			Vector2 InitPos = Vector2(xPos, -50);
+			AddDarkPlane(InitPos);
+			for (int i = 1; i < 3; i++)
+			{
+				Vector2 WingPos = InitPos + Vector2(-30, -30) * i;
+				AddDarkPlane(WingPos);
+				WingPos = InitPos + Vector2(30, -30) * i;
+				AddDarkPlane(WingPos);
+			}
+			m_EnemySpamTime -= base_spam_time;
+		}
+		if (m_SpecialEnemySpamTime >= base_special_cd)
+		{
+			float vPos = rand() % 300;
+			AddCirclePlane(vPos, 0);
+			AddCirclePlane(vPos, 1);
+			m_SpecialEnemySpamTime -= base_special_cd;
+		}
+		break;
+	case 4:
+		base_spam_time = 5.0f;
+		if (m_EnemySpamTime >= base_spam_time)
+		{
+			AddRandomMotor();
+			m_SpecialEnemySpamTime -= 5.0;
+			m_EnemySpamTime -= base_spam_time;
+		}
+	}
+}
+
+void GameController::CreateBoss()
+{
+	if (m_EnemySpamTime > 0.0f)
+	{
+		std::shared_ptr<ImperialSpaceShip> newEnemy;
+		newEnemy = std::make_shared<ImperialSpaceShip>(Vector2(200, 200));
+		m_listEnemy.push_back(newEnemy);
+		m_EnemySpamTime = -99999999.0f;
 	}
 }
 
@@ -339,4 +436,45 @@ Vector2 GameController::GetPlayerPosition()
 int GameController::GetScore()
 {
 	return m_Score;
+}
+
+void GameController::AddDarkPlane(Vector2 Position)
+{
+	std::shared_ptr<DarkPlane> newEnemy;
+	newEnemy = std::make_shared<DarkPlane>(1);
+	newEnemy->SetPosition(Position);
+	m_listEnemy.push_back(newEnemy);
+}
+
+void GameController::AddRandomSideCirclePlane(float vPos)
+{
+	std::shared_ptr<CirclePlane> newEnemy;
+	newEnemy = std::make_shared<CirclePlane>(vPos);
+	m_listEnemy.push_back(newEnemy);
+}
+
+void GameController::AddCirclePlane(float vPos, int type)
+{
+	std::shared_ptr<CirclePlane> newEnemy;
+	newEnemy = std::make_shared<CirclePlane>(vPos, type);
+	m_listEnemy.push_back(newEnemy);
+}
+
+void GameController::AddRandomMotor()
+{
+	if (m_motorCreated <= 5)
+	{
+		std::shared_ptr<Motor> newEnemy;
+		newEnemy = std::make_shared<Motor>();
+		m_listEnemy.push_back(newEnemy);
+		m_motorCreated++;
+		m_totalMotor++;
+	}
+}
+
+void GameController::AlertMotorDestroyed()
+{
+	//A lazy way to check if all motor destroyed
+	m_totalMotor--;
+	if (m_totalMotor == 0) m_totalMotor--;
 }
