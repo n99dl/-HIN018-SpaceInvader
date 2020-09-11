@@ -40,5 +40,6 @@ private:
 	std::string m_TexturePath;
 	std::string m_ModelsPath;
 	std::string m_FontPath;
+	std::string m_SoundPath;
 
 };

@@ -1,4 +1,8 @@
 #include "GSMenu.h"
+#include "soloud.h"
+#include "soloud_wav.h"
+#include "soloud_file.h"
+
 #define OFFSET_H 170
 
 extern int screenWidth; //need get on Graphic engine
@@ -18,6 +22,12 @@ GSMenu::~GSMenu()
 
 void GSMenu::Init()
 {
+	//std::cout << MediaPlayer::GetInstance()->TestSound() << "\n";
+	//std::cout << MediaPlayer::GetInstance()->PlaySound("test2.mp3") << "\n";
+
+	//SoLoud::DiskFile* f = new SoLoud::DiskFile(MediaPlayer::GetInstance()->InitWav("test2.mp3"));
+	MediaPlayer::GetInstance()->PlaySound(0);
+
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("BG");
 
@@ -34,6 +44,7 @@ void GSMenu::Init()
 	button->SetSize(200, 50);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Play);
+		MediaPlayer::GetInstance()->StopAllSound();
 		});
 	m_listButton.push_back(button);
 

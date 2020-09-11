@@ -12,9 +12,10 @@ void ImperialSpaceShip::Die()
 {
 	if (m_Phase == E4_LAST_PHASE)
 	{
-		std::cout << "BOSS die ?\n";
-		GameController::GetInstance()->AddScore(E4_SCORE);
+		std::cout << "BOSS die \n";
 		Enemy::Die(); 
+		GameController::GetInstance()->AddScore(E4_SCORE);
+		GameController::GetInstance()->Victory();
 	}
 	else
 	{
@@ -23,16 +24,23 @@ void ImperialSpaceShip::Die()
 		case 0:
 			m_Phase++;
 			m_Hp = E4_HP_2;
+			m_maxHp = E4_HP_2;
 			m_As -= 0.1;
 			m_circleGunCooldown -= 1.0;
 			m_circleGunTiming = m_circleGunCooldown;
+			DropItem();
+			DropItem();
 			break;
 		case 1:
 			m_Phase++;
-			m_As -= 0.1;
-			m_circleGunCooldown -= 1.0;
+			m_As -= 0.15;
+			m_circleGunCooldown -= 1.5;
 			m_circleGunTiming = m_circleGunCooldown;
 			m_Hp = E4_HP_3;
+			m_maxHp = E4_HP_3;
+			DropItem();
+			DropItem();
+			DropItem();
 			break;
 		}
 	}
@@ -40,10 +48,9 @@ void ImperialSpaceShip::Die()
 
 void ImperialSpaceShip::GenerateDestination()
 {
-	srand(time(NULL));
 	Vector2 space = E3_MOVE_SPACE;
-	int xLim = space.x - E4_SIZE_X / 2;
-	int yLim = space.y - E4_SIZE_Y / 2;
+	int xLim = space.x - E4_SIZE_X;
+	int yLim = space.y - E4_SIZE_Y;
 	float nx = rand() % xLim + E4_SIZE_X / 2;
 	float ny = rand() % yLim + E4_SIZE_Y / 2;
 	m_Destination = Vector2(nx, ny);
@@ -85,6 +92,8 @@ ImperialSpaceShip::ImperialSpaceShip()
 	m_MovePatern = GL_Utility::GetMoveVector(m_Position, m_Destination);
 	m_itemOdd = E3_ITEM_ODD;
 	m_Phase = 0;
+	m_maxHp = E4_HP_1;
+	m_IsBoss = true;
 }
 
 ImperialSpaceShip::ImperialSpaceShip(Vector2 Position) : ImperialSpaceShip()
@@ -101,6 +110,7 @@ void ImperialSpaceShip::Update(float dt)
 {
 	std::cout << "Boss test :" << m_Hp << "\n";
 	Enemy::Update(dt);
+	Enemy::Update(dt);
 	//std::cout << "Idle Time: " << m_idleTime << "\n";
 	//std::cout << "Destination " << m_Destination.x << " " << m_Destination.y << "\n";
 	ShootCircle();
@@ -109,7 +119,7 @@ void ImperialSpaceShip::Update(float dt)
 	{
 		if (abs(m_Position.x - m_Destination.x) <= 5.0f && abs(m_Position.y - m_Destination.y) <= 5.0f)
 		{
-			m_idleTime = E3_IDLE_TIME;
+			m_idleTime = E4_IDLE_TIME;
 			m_IsIdling = true;
 			m_MovePatern = Vector2(0, 0);
 		}
@@ -140,6 +150,13 @@ void ImperialSpaceShip::Shoot()
 		Patern = GL_Utility::GetMoveVector(theta);
 		CreateE1BulletWithPattern(Patern);
 	}
+}
+
+float ImperialSpaceShip::GetHpPercent()
+{
+	float hp = m_Hp;
+	float maxHp = m_maxHp;
+	return hp / maxHp;
 }
 
 void ImperialSpaceShip::ShootCircle()
@@ -173,4 +190,9 @@ void ImperialSpaceShip::CreateBulletAt(Vector2 Position)
 	NewBullet->SetBulletPatern(p_BulletPatern);
 	NewBullet->SetBulletSpeed(E4_CIRCLE_SPEED);
 	GameController::GetInstance()->AddEnemyBullet(NewBullet);
+}
+
+int ImperialSpaceShip::GetPhase()
+{
+	return m_Phase + 1;
 }

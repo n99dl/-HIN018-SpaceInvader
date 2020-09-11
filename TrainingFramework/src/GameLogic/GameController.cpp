@@ -18,6 +18,14 @@ GameController::~GameController()
 {
 }
 
+void GameController::Init()
+{
+	m_listEnemy.clear();
+	m_listPlayerBullet.clear();
+	m_listEnemyBullet.clear();
+	m_listEnemy.clear();
+}
+
 void GameController::CreatePlayer()
 {
 	std::cout << "Player created\n";
@@ -30,16 +38,19 @@ void GameController::CreateLevel()
 	m_wave = 0;
 	m_totalMotor = 0;
 	m_motorCreated = 0;
+	m_bossPhase = false;
+	m_gameOverCountDown = 999999999.0f;
 	//cheat , teehee
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->HackBulletPower();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
 }
 
 void GameController::CreateEnemies()
@@ -109,6 +120,11 @@ void GameController::Update(float dt)
 	m_EnemySpamTime += dt;
 	m_SpecialEnemySpamTime += dt;
 	m_background->Update(dt);
+	m_gameOverCountDown -= dt;
+	if (m_gameOverCountDown <= 0)
+	{
+		GameOver();
+	}
 	//Spam enemies
 	//Temporary difficulty system (need improvement)
 	if (m_totalMotor >= 0)
@@ -216,6 +232,10 @@ void GameController::Update(float dt)
 				enemy->DamageBy(bullet);
 				bullet->SelfDestruct();
 			}
+		if (enemy->IsCollide(m_Player))
+		{
+			m_Player->DamageBy(enemy);
+		}
 	}
 
 	for (auto item : m_listItem)
@@ -296,7 +316,7 @@ void GameController::HandleTouchEvents(int x, int y, int isPressed)
 
 std::shared_ptr<Player> GameController::GetPlayer()
 {
-	return std::shared_ptr<Player>();
+	return m_Player;
 }
 
 void GameController::AddPlayerBullet(std::shared_ptr<Bullet> NewBullet)
@@ -343,7 +363,7 @@ void GameController::SpamMinion()
 		m_SpecialEnemySpamTime = 0.0f;
 		m_EnemySpamTime = 8.0f;
 	}
-	if (m_GameTime >= 100.0 && m_wave < 4)
+	if (m_GameTime >= 80.0 && m_wave < 4)
 	{
 		m_wave = 4;
 		m_SpecialEnemySpamTime = 0.0f;
@@ -416,11 +436,11 @@ void GameController::CreateBoss()
 {
 	if (m_EnemySpamTime > 0.0f)
 	{
-		std::shared_ptr<ImperialSpaceShip> newEnemy;
-		newEnemy = std::make_shared<ImperialSpaceShip>(Vector2(200, 200));
-		m_listEnemy.push_back(newEnemy);
+		m_Boss = std::make_shared<ImperialSpaceShip>(Vector2(200, 200));
+		m_listEnemy.push_back(m_Boss);
 		m_EnemySpamTime = -99999999.0f;
 	}
+	m_bossPhase = true;
 }
 
 int GameController::GetPlayerHp()
@@ -436,6 +456,11 @@ Vector2 GameController::GetPlayerPosition()
 int GameController::GetScore()
 {
 	return m_Score;
+}
+
+int GameController::GetPlayerPower()
+{
+	return m_Player->GetPower();
 }
 
 void GameController::AddDarkPlane(Vector2 Position)
@@ -477,4 +502,46 @@ void GameController::AlertMotorDestroyed()
 	//A lazy way to check if all motor destroyed
 	m_totalMotor--;
 	if (m_totalMotor == 0) m_totalMotor--;
+}
+
+bool GameController::IsFightingBoss()
+{
+	return m_bossPhase;
+}
+
+float GameController::GetBossHpPercent()
+{
+	if (!IsFightingBoss())
+		return 0;
+	else
+		return m_Boss->GetHpPercent();
+}
+
+int GameController::GetBossPhase()
+{
+	return m_Boss->GetPhase();
+}
+
+int GameController::GetWave()
+{
+	return m_wave;
+}
+
+void GameController::GameOver()
+{
+	std::shared_ptr<GameStateBase> currentState  = GameStateMachine::GetInstance()->CurrentState();
+	GameStateMachine::GetInstance()->PopState();
+	GameStateMachine::GetInstance()->PushState(StateTypes::STATE_GameOver);
+	MediaPlayer::GetInstance()->StopAllSound();
+}
+
+void GameController::Victory()
+{
+	m_wave++;
+	StartGameOverCountDown();
+}
+
+void GameController::StartGameOverCountDown()
+{
+	m_gameOverCountDown = 5.0f;
 }

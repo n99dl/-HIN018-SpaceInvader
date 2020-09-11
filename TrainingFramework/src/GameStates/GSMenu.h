@@ -1,6 +1,7 @@
 #pragma once
 #include "gamestatebase.h"
 #include "GameButton.h"
+#include "MediaPlayer.h"
 #include <AnimationSprite.h>
 
 class GSMenu :
@@ -27,5 +28,6 @@ private:
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::shared_ptr<Text>  m_Text_gameName;
 	std::shared_ptr<AnimationSprite>  m_AnimationTest;
+	SoLoud::Wav m_MenuSound;
 };
 

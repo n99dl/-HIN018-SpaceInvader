@@ -1,6 +1,7 @@
 #pragma once
 #include <U_Math.h>
 #include "Sprite2D.h"
+#include "Enemy.h"
 #include "Entity.h"
 #include "Item.h"
 #include "Bullet.h"
@@ -27,6 +28,8 @@ protected:
 	void BackStraight();
 	float m_ShootTime;
 	bool m_IsShooting;
+	int m_bulletPower;
+	int m_totalPower;
 public:
 	Player();
 	~Player();
@@ -37,9 +40,15 @@ public:
 	void Shoot();
 	void SetIsShooting(bool IsShooting);
 	void PowerUp();
+	void HpUp();
 	void ConsumeItem(std::shared_ptr<Item> _Item);
 	void DamageBy(std::shared_ptr<Bullet> _Bullet);
+	void DamageBy(std::shared_ptr<Enemy> _Enemy);
 	int GetHp();
+	int GetPower();
+	//cheating duh
+	void HackBulletPower();
+	int GetBulletPower();
 	void Die();
 };
 

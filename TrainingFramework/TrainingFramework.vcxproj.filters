@@ -123,6 +123,15 @@
     <ClCompile Include="src\GameLogic\ImperialSpaceShip.cpp">
       <Filter>TrainingFramework\src\GameLogic</Filter>
     </ClCompile>
+    <ClCompile Include="src\MediaPlayer.cpp">
+      <Filter>TrainingFramework\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Foreground.cpp">
+      <Filter>TrainingFramework\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameStates\GameOverState.cpp">
+      <Filter>TrainingFramework\src\GameStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -235,6 +244,15 @@
     </ClInclude>
     <ClInclude Include="src\GameLogic\ImperialSpaceShip.h">
       <Filter>TrainingFramework\src\GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MediaPlayer.h">
+      <Filter>TrainingFramework\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Foreground.h">
+      <Filter>TrainingFramework\src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameStates\GameOverState.h">
+      <Filter>TrainingFramework\src\GameStates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -63,6 +63,7 @@ std::shared_ptr<HitBox> Entity::GetHitBox()
 
 bool Entity::IsCollide(std::shared_ptr<Entity> _Entity)
 {
+	if (!_Entity->isActive()) return false;
 	return m_HitBox->IsCollide(_Entity->GetHitBox());
 }
 

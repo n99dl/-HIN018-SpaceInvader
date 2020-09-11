@@ -22,18 +22,29 @@ void Enemy::Die()
 	auto texture = ResourceManagers::GetInstance()->GetTexture("red_explosion");
 	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader"); 
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	std::shared_ptr<AnimationSprite> Explosion = std::make_shared<AnimationSprite>(model, shader, texture, RE_NUM_FRAME, RE_FRAME_TIME, false);
-	Explosion->Set2DPosition(m_Position);
-	Explosion->SetSize(RE_SIZE, RE_SIZE);
-	GameController::GetInstance()->AddAnimation(Explosion);
+	std::shared_ptr<AnimationSprite> Explosion;
+	if (m_IsBoss)
+	{
+		Explosion = std::make_shared<AnimationSprite>(model, shader, texture, RE_NUM_FRAME, RE_FRAME_TIME, false);
+		Explosion->Set2DPosition(m_Position);
+		Explosion->SetSize(BOSS_RE_SIZE, BOSS_RE_SIZE);
+		GameController::GetInstance()->AddAnimation(Explosion);
+	}
+	else
+	{
+		Explosion = std::make_shared<AnimationSprite>(model, shader, texture, RE_NUM_FRAME, RE_FRAME_TIME, false);
+		Explosion->Set2DPosition(m_Position);
+		Explosion->SetSize(RE_SIZE, RE_SIZE);
+		GameController::GetInstance()->AddAnimation(Explosion);
+	}
 	if (!odd)
 	DropItem();
 }
 
 void Enemy::DropItem()
 {
-	srand(time(NULL));
-	int type = rand() % 2 + 1;
+	//srand(time(NULL));
+	int type = rand() % 2;
 	auto NewItem = std::make_shared<Item>(type, m_Position);
 	GameController::GetInstance()->AddItem(NewItem);
 }
@@ -47,6 +58,7 @@ Enemy::Enemy()
 	float random = rand() % 20;
 	m_currentTime = 0.1f * random;
 	m_itemOdd = 10;
+	m_IsBoss = false;
 }
 
 Enemy::Enemy(Vector2 Position)
@@ -94,6 +106,7 @@ void Enemy::DamageBy(std::shared_ptr<Bullet> _Bullet)
 		return;
 	std::cout << "Get shot by " << _Bullet->GetID() << "\n";
 	m_Hp -= _Bullet->GetPower();
+	m_Hp = max(0, m_Hp);
 	//impact effect
 	auto texture = ResourceManagers::GetInstance()->GetTexture("impact");
 	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
@@ -102,6 +115,16 @@ void Enemy::DamageBy(std::shared_ptr<Bullet> _Bullet)
 	impactAnimation->Set2DPosition(_Bullet->GetPosition());
 	impactAnimation->SetSize(I_SIZE, I_SIZE);
 	GameController::GetInstance()->AddAnimation(impactAnimation);
+}
+
+int Enemy::getHp()
+{
+	return m_Hp;
+}
+
+void Enemy::InstaDie()
+{
+	m_Hp = 0;
 }
 
 void Enemy::Shoot()

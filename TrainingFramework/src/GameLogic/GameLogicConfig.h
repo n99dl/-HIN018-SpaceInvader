@@ -36,7 +36,7 @@ extern int screenHeight; //need get on Graphic engine
 
 #define E1_SIZE_Y_OFFSET -10
 #define E1_SIZE_X_OFFSET -5
-#define E1_ITEM_ODD 8
+#define E1_ITEM_ODD 6
 
 #define E1_SCORE 20
 
@@ -51,7 +51,7 @@ extern int screenHeight; //need get on Graphic engine
 #define E2_BASE_AS 2.5f
 #define E2_BULLET_SPEED 150
 
-#define E2_ITEM_ODD 4
+#define E2_ITEM_ODD 3
 #define E2_SCORE 50
 
 
@@ -83,6 +83,8 @@ extern int screenHeight; //need get on Graphic engine
 #define E4_BASE_SPEED 200
 #define E4_SUB_GUN_CD 0.6
 #define E4_CIRCLE_GUN_CD 3.5
+
+#define E4_IDLE_TIME 2.0f
 
 #define E4_CIRCLE_SPEED 200
 #define E4_SIZE_X 200
@@ -119,8 +121,8 @@ extern int screenHeight; //need get on Graphic engine
 
 //item config
 
-#define ITEM_POWER_UP 1
-#define ITEM_HEATH 2
+#define ITEM_POWER_UP 0
+#define ITEM_HEATH 1
 
 #define ITEM_SIZE_X 50
 #define ITEM_SIZE_Y 30
@@ -137,6 +139,13 @@ extern int screenHeight; //need get on Graphic engine
 #define RE_NUM_FRAME 9
 #define RE_FRAME_TIME 0.04f
 #define RE_SIZE 64
+
+#define BOSS_RE_SIZE 300
+
+////Blue explosion
+#define BE_NUM_FRAME 9
+#define BE_FRAME_TIME 0.04f
+#define BE_SIZE 128
 
 ///impact
 

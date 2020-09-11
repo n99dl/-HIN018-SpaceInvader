@@ -10,6 +10,7 @@ private:
     bool m_IsIdling;
     float m_circleGunTiming;
     float m_circleGunCooldown;
+    int m_maxHp;
     void GenerateDestination();
     void CreateE1BulletWithPattern(Vector2 Pattern);
     void ShootCircle();
@@ -21,5 +22,7 @@ public:
     ~ImperialSpaceShip();
     void Update(float dt);
     void Shoot();
+    float GetHpPercent();
+    int GetPhase();
 };
 

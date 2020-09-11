@@ -34,6 +34,12 @@ Bullet::Bullet(int type) : Bullet()
 		m_HitBox = std::make_shared<HitBox>(Vector2(m_Position), Vector2(PB_SIZE_X / 2.0 - 10, PB_SIZE_Y / 2.0 - 5));
 		xSize = PB_SIZE_X;
 		ySize = PB_SIZE_Y;
+		m_Power = GameController::GetInstance()->GetPlayer()->GetBulletPower();
+		if (m_Power > 10)
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("empowered_player_bullet"); 
+		} else
+			texture = ResourceManagers::GetInstance()->GetTexture("player_bullet");
 		break;
 	case E1_BULLET:
 		texture = ResourceManagers::GetInstance()->GetTexture("enemy_bullet");

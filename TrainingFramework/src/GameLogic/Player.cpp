@@ -3,6 +3,7 @@
 #include "ResourceManagers.h"
 #include <GameLogic\Bullet.h>
 #include <GameLogic\GameController.h>
+#include "MediaPlayer.h"
 
 #define STRAIGHT 0
 #define LEAN_LEFT 1
@@ -18,6 +19,7 @@ void Player::Draw()
 
 void Player::Update(float dt)
 {
+	if (!m_isActive) return;
 	if (m_IsShooting)
 		Shoot();
 	Vector2 OldPosition = m_Sprite->Get2DPosition();
@@ -85,6 +87,7 @@ void Player::Shoot()
 	}
 	else
 		m_ShootTime -= m_AttackSpeed;
+	MediaPlayer::GetInstance()->PlaySound(PLAYER_SHOOT_ID);
 	switch (m_WeaponLevel)
 	{
 	case 1:
@@ -109,9 +112,28 @@ void Player::SetIsShooting(bool IsShooting)
 void Player::PowerUp()
 {
 	if (m_WeaponLevel < 3)
+	{
 		m_WeaponLevel++;
+		m_totalPower++;
+	}
 	else if (m_AttackSpeed > 0.2)
+	{
 		m_AttackSpeed -= 0.05;
+		m_totalPower++;
+	}
+	else if (m_bulletPower <= 14)
+	{
+		m_bulletPower+=2;
+		m_totalPower++;
+	}
+	MediaPlayer::GetInstance()->PlaySound(POWER_UP_ID);
+}
+
+void Player::HpUp()
+{
+	m_Hp += 10;
+	MediaPlayer::GetInstance()->PlaySound(POWER_UP_ID);
+	m_Hp = min(m_Hp, 110);
 }
 
 void Player::ConsumeItem(std::shared_ptr<Item> _Item)
@@ -122,6 +144,7 @@ void Player::ConsumeItem(std::shared_ptr<Item> _Item)
 		PowerUp();
 		break;
 	default:
+		HpUp();
 		break;
 	}
 }
@@ -140,6 +163,36 @@ void Player::DamageBy(std::shared_ptr<Bullet> _Bullet)
 	impactAnimation->Set2DPosition(_Bullet->GetPosition());
 	impactAnimation->SetSize(I_SIZE, I_SIZE);
 	GameController::GetInstance()->AddAnimation(impactAnimation);
+
+	if (m_Hp <= 0)
+	{
+		Die();
+	}
+}
+
+void Player::DamageBy(std::shared_ptr<Enemy> _Enemy)
+{
+	if (!_Enemy->isActive())
+		return;
+	std::cout << "Collide with " << _Enemy->GetID() << "\n";
+	m_Hp -= _Enemy->getHp();
+	//impact effect
+	auto texture = ResourceManagers::GetInstance()->GetTexture("impact");
+	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+	std::shared_ptr<AnimationSprite> impactAnimation = std::make_shared<AnimationSprite>(model, shader, texture, I_NUM_FRAME, I_FRAME_TIME, false);
+	impactAnimation->Set2DPosition(_Enemy->GetPosition());
+	impactAnimation->SetSize(I_SIZE, I_SIZE);
+	GameController::GetInstance()->AddAnimation(impactAnimation);
+
+	if (m_Hp <= 0)
+	{
+		Die();
+	}
+	else
+	{
+		_Enemy->InstaDie();
+	}
 }
 
 int Player::GetHp()
@@ -147,9 +200,33 @@ int Player::GetHp()
 	return m_Hp;
 }
 
+int Player::GetPower()
+{
+	return m_totalPower;
+}
+
+void Player::HackBulletPower()
+{
+	m_bulletPower = 9001;
+}
+
+int Player::GetBulletPower()
+{
+	return m_bulletPower;
+}
+
 void Player::Die()
 {
-
+	m_isActive = false;
+	m_Sprite->Set2DPosition(-100, -100);
+	auto texture = ResourceManagers::GetInstance()->GetTexture("blue_explosion");
+	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+	std::shared_ptr<AnimationSprite> Explosion = std::make_shared<AnimationSprite>(model, shader, texture, BE_NUM_FRAME, BE_FRAME_TIME, false);
+	Explosion->Set2DPosition(m_Position);
+	Explosion->SetSize(BE_SIZE, BE_SIZE);
+	GameController::GetInstance()->AddAnimation(Explosion);
+	GameController::GetInstance()->StartGameOverCountDown();
 }
 
 
@@ -249,6 +326,8 @@ Player::Player()
 	m_AttackSpeed = BASE_ATTACK_SPEED;
 	m_spriteState = STRAIGHT;
 	m_leanCooldown = 0;
+	m_bulletPower = 10;
+	m_totalPower = 1;
 	std::cout << "As :" << m_AttackSpeed << "\n";
 }
 

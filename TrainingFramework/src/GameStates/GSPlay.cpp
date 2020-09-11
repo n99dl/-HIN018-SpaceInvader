@@ -1,6 +1,7 @@
 #include "GSPlay.h"
 #include <string>
 
+#include "MediaPlayer.h"
 #include "Shaders.h"
 #include "Texture.h"
 #include "Models.h"
@@ -20,12 +21,13 @@ GSPlay::GSPlay()
 
 GSPlay::~GSPlay()
 {
-
+	std::cout << "Exit play\n";
 }
 
 
 void GSPlay::Init()
 {
+	MediaPlayer::GetInstance()->PlaySound(PLAY_MUSIC_ID);
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_play");
 
@@ -35,21 +37,12 @@ void GSPlay::Init()
 	m_BackGround->Set2DPosition(screenWidth / 2, screenHeight / 2);
 	m_BackGround->SetSize(screenWidth, screenHeight);
 
+	//Foreground
 
-	//score game title
-	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("arialbd");
-	m_score = std::make_shared< Text>(shader, font, "Score: 10", TEXT_COLOR::RED, 1.0);
-	m_score->Set2DPosition(Vector2(5, 25));
-
-	//score game title
-	font = ResourceManagers::GetInstance()->GetFont("arialbd");
-	m_Hp = std::make_shared< Text>(shader, font, "Hp: 100", TEXT_COLOR::RED, 0.5);
-	m_Hp->Set2DPosition(Vector2(5, screenHeight - 20));
+	m_Foreground = std::make_shared<Foreground>();
 	
 	//GameController
-
-	//GameController::GetInstance()->CreatePlayer();
+	GameController::FreeInstance();
 	GameController::GetInstance()->CreateLevel();
 }
 
@@ -89,16 +82,16 @@ void GSPlay::Update(float deltaTime)
 {
 	GameController::GetInstance()->Update(deltaTime);
 	std::string  score = std::to_string(GameController::GetInstance()->GetScore());
-	m_score->setText("Score :" + score);
+	//m_score->setText("Score :" + score);
 	std::string playerHp = std::to_string(GameController::GetInstance()->GetPlayerHp());
-	m_Hp->setText("Hp: " + playerHp);
+	m_Foreground->Update(deltaTime);
+	//m_Hp->setText("Hp: " + playerHp);
 }
 
 void GSPlay::Draw()
 {
 	GameController::GetInstance()->Draw();
-	m_score->Draw();
-	m_Hp->Draw();
+	m_Foreground->Draw();
 }
 
 void GSPlay::SetNewPostionForBullet()

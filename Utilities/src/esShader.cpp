@@ -11,7 +11,7 @@
 #endif
 
 #ifndef ANDROID
-#include "MemoryOperators.h"
+//MemoryOperator
 #else
 #include <android/log.h>
 #include <GLES2/gl2.h>

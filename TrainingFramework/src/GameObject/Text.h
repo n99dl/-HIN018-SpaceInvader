@@ -28,6 +28,8 @@ public:
 
 	void		Set2DPosition(GLfloat x, GLfloat y);
 	void		Set2DPosition(Vector2 pos);
+
+	Vector4 EnumToVector(TEXT_COLOR color);
 private:
 	std::string				m_text;
 	std::shared_ptr<Font>	m_font;
@@ -36,6 +38,5 @@ private:
 	GLint			m_iHeight;
 	GLint			m_iWidth;
 	Vector2	m_scale;
-	Vector4 EnumToVector(TEXT_COLOR color);
 	void CaculateWorldMatrix();
 };
