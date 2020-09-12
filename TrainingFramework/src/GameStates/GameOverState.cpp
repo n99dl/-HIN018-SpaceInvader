@@ -76,7 +76,8 @@ void GameOverState::Init()
 	switch (maxWave)
 	{
 	case 0:
-		tip1 +="HOW? LITERALLY, IMPOSSIBLE TO DIE";
+		tip1 += "Liberate the Universe Sergant.";
+		tip2 += "The whole universe lie on your...mouse!";
 		break;
 	case 1:
 		tip1 += "Enemy BULLET will injured you, noobs";
@@ -99,8 +100,8 @@ void GameOverState::Init()
 		tip2 = "You can do it!";
 		break;
 	case 6:
-		tip1 += "You did it! The universe is liberated!!";
-		tip2 += "Thank you for playing!";
+		tip1 = "You did it! The universe is Destroyed!!";
+		tip2 += "Yes, you are the Intruder! Not them! Ha";
 		break;
 	}
 	font = ResourceManagers::GetInstance()->GetFont("game_text");
@@ -108,6 +109,13 @@ void GameOverState::Init()
 	m_Tips_1->Set2DPosition(Vector2(30, 300));	
 	m_Tips_2 = std::make_shared<Text>(shader, font, tip2, TEXT_COLOR::WHILE, 0.8);
 	m_Tips_2->Set2DPosition(Vector2(30 + 40, 300 + LINE_WIDTH));
+	if (maxWave == 6)
+	{
+		m_Tips_1->Set2DPosition(Vector2(30 + 40, 300));
+		m_Tips_1->SetColor(m_Tips_1->EnumToVector(TEXT_COLOR::RED));
+		m_Tips_2->SetColor(m_Tips_1->EnumToVector(TEXT_COLOR::RED));
+		m_Text_notification->setText("You defeated the boss!");
+	}
 }
 
 void GameOverState::Exit()

@@ -12,6 +12,8 @@ enum StateTypes
 	STATE_Menu,
 	STATE_Play,
 	STATE_Option,
+	STATE_Info,
+	STATE_Pause,
 	STATE_GameOver
 };
 

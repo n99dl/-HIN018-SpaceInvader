@@ -20,10 +20,16 @@ private:
 				playMusic,
 				playerShoot,
 				powerUp;
+	bool isMute;
+	float volume;
 public:
 	MediaPlayer();
 	int TestSound();
 	int PlaySound(int soundId);
 	int StopAllSound();
+	void ToggleMute();
+	void Mute();
+	void UnMute();
+	bool IsMute();
 };
 

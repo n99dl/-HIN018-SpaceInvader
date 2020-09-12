@@ -1,12 +1,11 @@
 #pragma once
 #include "GameStates/GameStatebase.h"
 #include <GameButton.h>
-class GSOption :
-    public GameStateBase
+class GSPause : public GameStateBase
 {
 public:
-	GSOption();
-	~GSOption();
+	GSPause();
+	~GSPause();
 
 	void Init();
 	void Exit();
@@ -26,13 +25,11 @@ protected:
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::shared_ptr<GameButton> m_mute;
 	std::shared_ptr<GameButton> m_unmute;
-	std::shared_ptr<GameButton> m_mouse;
-	std::shared_ptr<GameButton> m_keyboard;
 	std::list<std::shared_ptr<Text>> m_listText;
 	std::shared_ptr<Text> m_soundText;
-	std::shared_ptr<Text> m_controlTypeText;
+	std::shared_ptr<Text>  m_Tips_1;
+	std::shared_ptr<Text>  m_Tips_2;
 	void SetStateMuteBtn();
 	bool m_isMute;
-	int m_ControlType;
 };
 

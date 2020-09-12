@@ -261,6 +261,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\ControllerSetting.cpp" />
     <ClCompile Include="src\Foreground.cpp" />
     <ClCompile Include="src\GameLogic\Bullet.cpp" />
     <ClCompile Include="src\GameLogic\CirclePlane.cpp" />
@@ -289,9 +290,11 @@
     <ClCompile Include="src\GameStates\GameOverState.cpp" />
     <ClCompile Include="src\GameStates\GameStatebase.cpp" />
     <ClCompile Include="src\GameStates\GameStateMachine.cpp" />
+    <ClCompile Include="src\GameStates\GSInfo.cpp" />
     <ClCompile Include="src\GameStates\GSIntro.cpp" />
     <ClCompile Include="src\GameStates\GSMenu.cpp" />
     <ClCompile Include="src\GameStates\GSOption.cpp" />
+    <ClCompile Include="src\GameStates\GSPause.cpp" />
     <ClCompile Include="src\GameStates\GSPlay.cpp" />
     <ClCompile Include="src\MediaPlayer.cpp" />
     <ClCompile Include="src\ParalelBackground.cpp" />
@@ -300,6 +303,7 @@
   <ItemGroup>
     <ClInclude Include="ControlConfig.h" />
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\ControllerSetting.h" />
     <ClInclude Include="src\Foreground.h" />
     <ClInclude Include="src\GameConfig.h" />
     <ClInclude Include="src\GameLogic\Bullet.h" />
@@ -332,9 +336,11 @@
     <ClInclude Include="src\GameStates\GameOverState.h" />
     <ClInclude Include="src\GameStates\GameStatebase.h" />
     <ClInclude Include="src\GameStates\GameStateMachine.h" />
+    <ClInclude Include="src\GameStates\GSInfo.h" />
     <ClInclude Include="src\GameStates\GSIntro.h" />
     <ClInclude Include="src\GameStates\GSMenu.h" />
     <ClInclude Include="src\GameStates\GSOption.h" />
+    <ClInclude Include="src\GameStates\GSPause.h" />
     <ClInclude Include="src\GameStates\GSPlay.h" />
     <ClInclude Include="src\MediaPlayer.h" />
     <ClInclude Include="src\ParalelBackground.h" />

@@ -5,5 +5,6 @@
 #define MOVE_LEFT	1 << 2
 #define MOVE_RIGHT	1 << 3
 #define SHOOT		1 << 4
-#define UNKNOWN		1 << 5
+#define PAUSE		1 << 5
+#define BOOST		1 << 6
 

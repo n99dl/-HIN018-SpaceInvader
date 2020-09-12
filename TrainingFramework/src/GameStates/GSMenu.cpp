@@ -26,6 +26,8 @@ void GSMenu::Init()
 	//std::cout << MediaPlayer::GetInstance()->PlaySound("test2.mp3") << "\n";
 
 	//SoLoud::DiskFile* f = new SoLoud::DiskFile(MediaPlayer::GetInstance()->InitWav("test2.mp3"));
+
+	MediaPlayer::GetInstance()->StopAllSound();
 	MediaPlayer::GetInstance()->PlaySound(0);
 
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
@@ -76,7 +78,7 @@ void GSMenu::Init()
 	button->Set2DPosition(screenWidth / 2 + middleOffset, 370 + OFFSET_H);
 	button->SetSize(70, 70);
 	button->SetOnClick([]() {
-
+		GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Info);
 		});
 	m_listButton.push_back(button);
 

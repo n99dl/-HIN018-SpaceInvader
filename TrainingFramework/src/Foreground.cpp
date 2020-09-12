@@ -176,6 +176,7 @@ void Foreground::Update(float dt)
 	if (GameController::GetInstance()->IsFightingBoss())
 	{
 		m_Text_wave->setText("Imperial Ship Bullet Hell!");
+		m_Text_wave->SetColor(m_Text_wave->EnumToVector(TEXT_COLOR::RED));
 	}
 	else
 	{
@@ -188,12 +189,15 @@ void Foreground::Update(float dt)
 			break;
 		case 2:
 			m_Text_wave->setText("Wave 2 Aiming Shooter");
+			m_Text_wave->SetColor(m_Text_wave->EnumToVector(TEXT_COLOR::CYAN));
 			break;
 		case 3:
 			m_Text_wave->setText("Wave 3 Formation!");
+			m_Text_wave->SetColor(m_Text_wave->EnumToVector(TEXT_COLOR::BLUE));
 			break;
 		case 4:
 			m_Text_wave->setText("Wave 3 Homing captain!");
+			m_Text_wave->SetColor(m_Text_wave->EnumToVector(TEXT_COLOR::PURPLE));
 			break;
 		}
 	}

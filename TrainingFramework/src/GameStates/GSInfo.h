@@ -1,12 +1,13 @@
 #pragma once
 #include "GameStates/GameStatebase.h"
 #include <GameButton.h>
-class GSOption :
-    public GameStateBase
+
+class GSInfo :
+	public GameStateBase
 {
 public:
-	GSOption();
-	~GSOption();
+	GSInfo();
+	~GSInfo();
 
 	void Init();
 	void Exit();
@@ -23,16 +24,7 @@ public:
 
 protected:
 	std::shared_ptr<Sprite2D> m_BackGround;
-	std::list<std::shared_ptr<GameButton>>	m_listButton;
-	std::shared_ptr<GameButton> m_mute;
-	std::shared_ptr<GameButton> m_unmute;
-	std::shared_ptr<GameButton> m_mouse;
-	std::shared_ptr<GameButton> m_keyboard;
 	std::list<std::shared_ptr<Text>> m_listText;
-	std::shared_ptr<Text> m_soundText;
-	std::shared_ptr<Text> m_controlTypeText;
-	void SetStateMuteBtn();
-	bool m_isMute;
-	int m_ControlType;
+	std::list<std::shared_ptr<GameButton>>	m_listButton;
 };
 

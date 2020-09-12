@@ -1,5 +1,6 @@
 #include "GameController.h"
 #include "../ControlConfig.h"
+#include "ControllerSetting.h"
 #include <GameLogic\DarkPlane.h>
 #include <GameLogic\CirclePlane.h>
 #include <time.h>
@@ -41,15 +42,15 @@ void GameController::CreateLevel()
 	m_bossPhase = false;
 	m_gameOverCountDown = 999999999.0f;
 	//cheat , teehee
-	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
 	//m_Player->HackBulletPower();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
 	//m_Player->PowerUp();
 }
 
@@ -131,12 +132,21 @@ void GameController::Update(float dt)
 		SpamMinion();
 	else
 		CreateBoss();
-	//Update Player
-	m_Player->Move(KeyPressed, dt);
-	/*if (KeyPressed & SHOOT)
-		m_Player->SetIsShooting(true);
-	else
-		m_Player->SetIsShooting(false);*/
+	//Update Keyboard control
+	if (ControllerSetting::GetControlType() == KEYBOARD)
+	{
+		m_Player->Move(KeyPressed, dt);
+		if (KeyPressed & SHOOT)
+			m_Player->SetIsShooting(true);
+		else
+			m_Player->SetIsShooting(false);
+	}
+	if (KeyPressed & PAUSE)
+	{
+		GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Pause);
+		KeyPressed ^= PAUSE;
+	}
+	//Upd Player
 	m_Player->Update(dt);
 	//Update Enemy
 	{
@@ -277,6 +287,10 @@ void GameController::HandleKeyEvents(int key, bool isPressed)
 			break;
 		case 32:
 			KeyPressed |= SHOOT;
+			break;
+		case 'P':
+			KeyPressed |= PAUSE;
+			break;
 		defualt:
 			break;
 		}
@@ -298,6 +312,10 @@ void GameController::HandleKeyEvents(int key, bool isPressed)
 			break;
 		case 32:
 			KeyPressed ^= SHOOT;
+			break;
+		case 'P':
+			KeyPressed ^= PAUSE;
+			break;
 		default:
 			break;
 		}
@@ -306,12 +324,16 @@ void GameController::HandleKeyEvents(int key, bool isPressed)
 
 void GameController::HandleTouchEvents(int x, int y, int isPressed)
 {
-	m_Player->MoveByMouse(x, y);
-	if (isPressed == 1)
+	if (ControllerSetting::GetControlType() == MOUSE)
 	{
-		m_Player->SetIsShooting(true);
-	} else if (isPressed == 0)
-		m_Player->SetIsShooting(false);
+		m_Player->MoveByMouse(x, y);
+		if (isPressed == 1)
+		{
+			m_Player->SetIsShooting(true);
+		}
+		else if (isPressed == 0)
+			m_Player->SetIsShooting(false);
+	}
 }
 
 std::shared_ptr<Player> GameController::GetPlayer()
@@ -363,7 +385,7 @@ void GameController::SpamMinion()
 		m_SpecialEnemySpamTime = 0.0f;
 		m_EnemySpamTime = 8.0f;
 	}
-	if (m_GameTime >= 10.0 && m_wave < 4)
+	if (m_GameTime >= 80.0 && m_wave < 4)
 	{
 		m_wave = 4;
 		m_SpecialEnemySpamTime = 0.0f;
@@ -439,8 +461,9 @@ void GameController::CreateBoss()
 		m_Boss = std::make_shared<ImperialSpaceShip>(Vector2(200, 200));
 		m_listEnemy.push_back(m_Boss);
 		m_EnemySpamTime = -99999999.0f;
+		m_bossPhase = true;
+		m_wave = 5;
 	}
-	m_bossPhase = true;
 }
 
 int GameController::GetPlayerHp()
@@ -537,7 +560,8 @@ void GameController::GameOver()
 
 void GameController::Victory()
 {
-	m_wave++;
+	m_wave = 6;
+	std::cout << "Victory!\n";
 	StartGameOverCountDown();
 }
 

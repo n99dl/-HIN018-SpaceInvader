@@ -1,7 +1,7 @@
-#include "GSOption.h"
-#include "ControllerSetting.h"
+#include "GSPause.h"
 #include "Shaders.h"
 #include "MediaPlayer.h"
+#include "GameController.h"
 #include "Texture.h"
 #include "Models.h"
 #include "Camera.h"
@@ -14,20 +14,20 @@ extern int screenWidth; //need get on Graphic engine
 extern int screenHeight; //need get on Graphic engine
 
 #define START_POS_X 50
-#define START_POS_Y 200
+#define START_POS_Y 100
 #define LINE_WIDTH_Y 30
 #define LEFT_BTN_X  screenWidth / 2.0 - 50
 #define RIGHT_BTN_X screenWidth / 2.0 + 50
 
-GSOption::GSOption()
+GSPause::GSPause()
 {
 }
 
-GSOption::~GSOption()
+GSPause::~GSPause()
 {
 }
 
-void GSOption::Init()
+void GSPause::Init()
 {
 	std::cout << "Enter option scene";
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
@@ -44,11 +44,21 @@ void GSOption::Init()
 	std::shared_ptr<GameButton> button;
 	texture = ResourceManagers::GetInstance()->GetTexture("Back_BTN");
 	button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(screenWidth / 2.0, screenHeight - 100);
-	button->SetSize(80, 80);
+	button->Set2DPosition(screenWidth / 2.0 - 50, screenHeight - 100);
+	button->SetSize(70, 70);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->PopState();
 		//GameStateMachine::GetInstance()->ChangeState(StateTypes::STATE_Menu);
+		});
+	m_listButton.push_back(button);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("Menu_BTN");
+	button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(screenWidth / 2.0 + 50, screenHeight - 100);
+	button->SetSize(70, 70);
+	button->SetOnClick([]() {
+		GameStateMachine::GetInstance()->Cleanup();
+		GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Menu);
 		});
 	m_listButton.push_back(button);
 
@@ -75,28 +85,6 @@ void GSOption::Init()
 		});
 	m_listButton.push_back(m_unmute);
 
-	//Mouse
-	texture = ResourceManagers::GetInstance()->GetTexture("Mouse_BTN");
-
-	m_mouse = std::make_shared<GameButton>(model, shader, texture);
-	m_mouse->Set2DPosition(LEFT_BTN_X, START_POS_Y + LINE_WIDTH_Y * 6.0);
-	m_mouse->SetSize(50, 50);
-	m_mouse->SetOnClick([]() {
-		ControllerSetting::SetControlType(MOUSE);
-		});
-	m_listButton.push_back(m_mouse);
-
-	//Keyboard
-	texture = ResourceManagers::GetInstance()->GetTexture("Keyboard_BTN");
-
-	m_keyboard = std::make_shared<GameButton>(model, shader, texture);
-	m_keyboard->Set2DPosition(RIGHT_BTN_X, START_POS_Y + LINE_WIDTH_Y * 6.0);
-	m_keyboard->SetSize(50, 50);
-	m_keyboard->SetOnClick([]() {
-		ControllerSetting::SetControlType(KEYBOARD);
-		});
-	m_listButton.push_back(m_keyboard);
-
 	//Text
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("game_text");
@@ -105,39 +93,73 @@ void GSOption::Init()
 	m_listText.push_back(GameText);
 
 	m_soundText = std::make_shared<Text>(shader, font, "ON", TEXT_COLOR::GREEN, 1.0);
-	m_soundText->Set2DPosition(screenWidth / 2.0, START_POS_Y + LINE_WIDTH_Y * 0.0);
+	m_soundText->Set2DPosition(START_POS_X + 100, START_POS_Y + LINE_WIDTH_Y * 0.0);
 	m_listText.push_back(m_soundText);
 
-	GameText = std::make_shared<Text>(shader, font, "Control type: ", TEXT_COLOR::WHILE, 1.0);
-	GameText->Set2DPosition(START_POS_X, START_POS_Y + LINE_WIDTH_Y * 4.0);
-	m_listText.push_back(GameText);
-
-	m_controlTypeText = std::make_shared<Text>(shader, font, "MOUSE", TEXT_COLOR::GREEN, 1.0);
-	m_controlTypeText->Set2DPosition(screenWidth / 2.0, START_POS_Y + LINE_WIDTH_Y * 4.0);
-	m_listText.push_back(m_controlTypeText);
+	//Tips
+	int maxWave = GameController::GetInstance()->GetWave();
+	std::string tip1 = "Tips: ", tip2 = "";
+	switch (maxWave)
+	{
+	case 0:
+		tip1 += "Liberate the Universe Sergant.";
+		tip2 += "The whole universe lie on your...controller!";
+		break;
+	case 1:
+		tip1 += "Enemy BULLET will injured you, noobs";
+		tip2 = "HIT the ENEMY also damage you";
+		break;
+	case 2:
+		tip1 += "Circle plane will AIM for your POSITION.";
+		tip2 = "Try MOVING around continously";
+		break;
+	case 3:
+		tip1 += "DESTROY formation quickly";
+		tip2 = "Collect more POWER UP!";
+		break;
+	case 4:
+		tip1 += "Motor use HOMING bullet";
+		tip2 = "Try to lure the bullet out of the screen";
+		break;
+	case 5:
+		tip1 += "Move through the GAP of the MINIGUN.";
+		tip2 = "You can do it!";
+		break;
+	case 6:
+		tip1 += "You did it! The universe is Destroyed!!";
+		tip2 += "Yes, you are the Intruder! Not them! Ha";
+		break;
+	}
+	font = ResourceManagers::GetInstance()->GetFont("game_text");
+	m_Tips_1 = std::make_shared<Text>(shader, font, tip1, TEXT_COLOR::WHILE, 0.8);
+	m_Tips_1->Set2DPosition(Vector2(START_POS_X,		START_POS_Y + LINE_WIDTH_Y * 10.0));
+	m_Tips_2 = std::make_shared<Text>(shader, font, tip2, TEXT_COLOR::WHILE, 0.8);
+	m_Tips_2->Set2DPosition(Vector2(START_POS_X + 40,	START_POS_Y + LINE_WIDTH_Y * 11.0));
+	m_listText.push_back(m_Tips_1);
+	m_listText.push_back(m_Tips_2);
 }
 
-void GSOption::Exit()
+void GSPause::Exit()
 {
 }
 
-void GSOption::Pause()
+void GSPause::Pause()
 {
 }
 
-void GSOption::Resume()
+void GSPause::Resume()
 {
 }
 
-void GSOption::HandleEvents()
+void GSPause::HandleEvents()
 {
 }
 
-void GSOption::HandleKeyEvents(int key, bool bIsPressed)
+void GSPause::HandleKeyEvents(int key, bool bIsPressed)
 {
 }
 
-void GSOption::HandleTouchEvents(int x, int y, int bIsPressed)
+void GSPause::HandleTouchEvents(int x, int y, int bIsPressed)
 {
 	for (auto it : m_listButton)
 	{
@@ -146,7 +168,7 @@ void GSOption::HandleTouchEvents(int x, int y, int bIsPressed)
 	}
 }
 
-void GSOption::Update(float deltaTime)
+void GSPause::Update(float deltaTime)
 {
 	m_BackGround->Update(deltaTime);
 	SetStateMuteBtn();
@@ -159,24 +181,12 @@ void GSOption::Update(float deltaTime)
 			m_soundText->SetColor(m_soundText->EnumToVector(TEXT_COLOR::RED));
 			m_soundText->setText("OFF");
 		}
-		else 
+		else
 		{
 			m_soundText->SetColor(m_soundText->EnumToVector(TEXT_COLOR::GREEN));
 			m_soundText->setText("ON");
 		}
 	}
-	int ControlType = ControllerSetting::GetControlType();
-	if (ControlType == MOUSE)
-	{
-		m_controlTypeText->SetColor(m_controlTypeText->EnumToVector(TEXT_COLOR::CYAN));
-		m_controlTypeText->setText("Mouse");
-	}
-	else
-	{
-		m_controlTypeText->SetColor(m_controlTypeText->EnumToVector(TEXT_COLOR::BLUE));
-		m_controlTypeText->setText("Keyboard");
-	}
-
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);
@@ -187,7 +197,7 @@ void GSOption::Update(float deltaTime)
 	}
 }
 
-void GSOption::Draw()
+void GSPause::Draw()
 {
 	m_BackGround->Draw();
 	for (auto it : m_listButton)
@@ -200,7 +210,7 @@ void GSOption::Draw()
 	}
 }
 
-void GSOption::SetStateMuteBtn()
+void GSPause::SetStateMuteBtn()
 {
-	
+
 }

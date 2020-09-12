@@ -5,7 +5,7 @@ extern int screenHeight; //need get on Graphic engine
 
 //Player Config
 #define START_POSITION Vector2(screenWidth/2, screenHeight - 100)
-#define BASE_SPEED 200
+#define BASE_SPEED 400
 #define BASE_HP 100
 #define BASE_WEAPON_POWER 1
 #define BASE_BULLET_SPEED 600

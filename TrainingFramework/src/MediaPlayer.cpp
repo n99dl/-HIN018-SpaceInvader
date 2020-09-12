@@ -4,6 +4,7 @@
 MediaPlayer::MediaPlayer()
 {
 	soloud.init();
+	volume = soloud.getGlobalVolume();
 
 	std::string SoundPath = "..\\Data\\Sounds\\";
 
@@ -92,4 +93,30 @@ int MediaPlayer::StopAllSound()
 {
 	soloud.stopAll();
 	return 1;
+}
+
+void MediaPlayer::ToggleMute()
+{
+	isMute = !isMute;
+	float fl = 1.0 - isMute;
+	soloud.setGlobalVolume(fl * volume);
+}
+
+void MediaPlayer::Mute()
+{
+	isMute = true;
+	soloud.setGlobalVolume(0.0f * volume);
+	std::cout << "muting\n";
+}
+
+void MediaPlayer::UnMute()
+{
+	isMute = false;
+	soloud.setGlobalVolume(1.0f * volume);
+	std::cout << "unmuting\n";
+}
+
+bool MediaPlayer::IsMute()
+{
+	return isMute;
 }
