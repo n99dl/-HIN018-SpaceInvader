@@ -42,15 +42,15 @@ void GameController::CreateLevel()
 	m_gameOverCountDown = 999999999.0f;
 	//cheat , teehee
 	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->HackBulletPower();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
-	m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->HackBulletPower();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
+	//m_Player->PowerUp();
 }
 
 void GameController::CreateEnemies()
