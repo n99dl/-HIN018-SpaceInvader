@@ -45,4 +45,6 @@ void ParalelBackground::Update(float dt)
 	}
 	m_Sprite1->Set2DPosition(p_Sprite1);
 	m_Sprite2->Set2DPosition(p_Sprite2);
+	m_Sprite1->Update(dt);
+	m_Sprite2->Update(dt);
 }

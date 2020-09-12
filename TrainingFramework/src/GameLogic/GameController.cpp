@@ -42,14 +42,14 @@ void GameController::CreateLevel()
 	m_gameOverCountDown = 999999999.0f;
 	//cheat , teehee
 	m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
 	//m_Player->HackBulletPower();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
-	//m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
+	m_Player->PowerUp();
 	//m_Player->PowerUp();
 }
 
@@ -363,7 +363,7 @@ void GameController::SpamMinion()
 		m_SpecialEnemySpamTime = 0.0f;
 		m_EnemySpamTime = 8.0f;
 	}
-	if (m_GameTime >= 80.0 && m_wave < 4)
+	if (m_GameTime >= 10.0 && m_wave < 4)
 	{
 		m_wave = 4;
 		m_SpecialEnemySpamTime = 0.0f;

@@ -31,7 +31,8 @@ public:
 	void SetNewPostionForBullet();
 
 private:
-
+	int m_frames;
+	float m_totalFrameTime;
 	std::shared_ptr<Sprite2D> m_BackGround;
 	std::shared_ptr<Foreground> m_Foreground;
 	std::shared_ptr<GameController> m_GameController;

@@ -117,7 +117,7 @@ void ImperialSpaceShip::Update(float dt)
 	m_circleGunTiming += dt;
 	if (!m_IsIdling)
 	{
-		if (abs(m_Position.x - m_Destination.x) <= 5.0f && abs(m_Position.y - m_Destination.y) <= 5.0f)
+		if (abs(m_Position.x - m_Destination.x) <= 10.0f && abs(m_Position.y - m_Destination.y) <= 10.0f)
 		{
 			m_idleTime = E4_IDLE_TIME;
 			m_IsIdling = true;

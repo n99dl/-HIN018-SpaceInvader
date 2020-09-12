@@ -81,8 +81,8 @@ extern int screenHeight; //need get on Graphic engine
 #define E4_HP_2 2000
 #define E4_HP_3 3000
 #define E4_BASE_SPEED 200
-#define E4_SUB_GUN_CD 0.6
-#define E4_CIRCLE_GUN_CD 3.5
+#define E4_SUB_GUN_CD 0.7
+#define E4_CIRCLE_GUN_CD 5.5
 
 #define E4_IDLE_TIME 2.0f
 

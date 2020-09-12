@@ -44,6 +44,9 @@ void GSPlay::Init()
 	//GameController
 	GameController::FreeInstance();
 	GameController::GetInstance()->CreateLevel();
+
+	m_frames = 0;
+	m_totalFrameTime = 0.0;
 }
 
 void GSPlay::Exit()
@@ -80,6 +83,14 @@ void GSPlay::HandleTouchEvents(int x, int y, int bIsPressed)
 
 void GSPlay::Update(float deltaTime)
 {
+	//m_frames++;
+	//m_totalFrameTime += deltaTime;
+	//if (m_frames >= 3)
+	//{
+	//	std::cout << "Fps :" << (float)m_frames / m_totalFrameTime << "\n";
+	//	m_frames = 0;
+	//	m_totalFrameTime = 0;
+	//}
 	GameController::GetInstance()->Update(deltaTime);
 	std::string  score = std::to_string(GameController::GetInstance()->GetScore());
 	//m_score->setText("Score :" + score);
