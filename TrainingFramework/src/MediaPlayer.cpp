@@ -1,4 +1,5 @@
 #include "MediaPlayer.h"
+#include <iostream>
 
 MediaPlayer::MediaPlayer()
 {
@@ -12,11 +13,6 @@ MediaPlayer::MediaPlayer()
 	const char* filePath = filePathString.c_str();
 	FILE* p = fopen(filePath, "r");
 
-	if (!p)
-	{
-		std::cout << filePathString << " file loaded failed!\n";
-	} else
-		std::cout << filePathString << " loaded\n";
 	SoLoud::DiskFile* f = new SoLoud::DiskFile(p);
 	menuMusic.loadFile(f);
 
@@ -26,11 +22,6 @@ MediaPlayer::MediaPlayer()
 	filePath = filePathString.c_str();
 	p = fopen(filePath, "r");
 
-	if (!p)
-	{
-		std::cout << filePathString << " file loaded failed!\n";
-	} else
-		std::cout << filePathString << " loaded\n";
 	f = new SoLoud::DiskFile(p);
 	playMusic.loadFile(f);	
 
@@ -93,7 +84,6 @@ int MediaPlayer::PlaySound(int soundId)
 		soloud.setVolume(channel, v / 0.2f);
 		break;
 	}
-	std::cout << "Sound Played!\n";
 
 	return 0;
 }
