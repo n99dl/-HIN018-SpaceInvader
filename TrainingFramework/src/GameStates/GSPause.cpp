@@ -1,7 +1,7 @@
 #include "GSPause.h"
 #include "Shaders.h"
 #include "MediaPlayer.h"
-#include "GameController.h"
+#include "Gamelogic/GameController.h"
 #include "Texture.h"
 #include "Models.h"
 #include "Camera.h"
