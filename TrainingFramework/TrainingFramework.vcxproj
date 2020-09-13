@@ -56,7 +56,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Nvidia|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
@@ -145,7 +145,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Include\AMD;$(SolutionDir)\freetype\include;$(SolutionDir)\Utilities\src;$(projectdir)\src\GameManager;$(projectdir)\src\GameObject;$(projectdir)\src\GameState;$(projectdir)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\SoLoud\Include;$(SolutionDir)\Include\NVIDIA;$(SolutionDir)\Include\AMD;$(SolutionDir)\freetype\include;$(SolutionDir)\Utilities\src;$(projectdir)\src\GameManager;$(projectdir)\src\GameObject;$(projectdir)\src\GameState;$(projectdir)\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -275,6 +275,7 @@
     <ClCompile Include="src\GameLogic\Item.cpp" />
     <ClCompile Include="src\GameLogic\Motor.cpp" />
     <ClCompile Include="src\GameLogic\ObjectPool\Animation.cpp" />
+    <ClCompile Include="src\GameLogic\ObjectPool\ObjectPools.cpp" />
     <ClCompile Include="src\GameLogic\Player.cpp" />
     <ClCompile Include="src\GameManager\ResourceManagers.cpp" />
     <ClCompile Include="src\GameObject\AnimationSprite.cpp" />
@@ -318,6 +319,7 @@
     <ClInclude Include="src\GameLogic\Item.h" />
     <ClInclude Include="src\GameLogic\Motor.h" />
     <ClInclude Include="src\GameLogic\ObjectPool\Animation.h" />
+    <ClInclude Include="src\GameLogic\ObjectPool\ObjectPools.h" />
     <ClInclude Include="src\GameLogic\Player.h" />
     <ClInclude Include="src\GameLogic\GameLogicConfig.h" />
     <ClInclude Include="src\GameManager\ResourceManagers.h" />

@@ -15,6 +15,9 @@ public:
     Bullet(int type);
     Bullet(Vector2 Position, int type);
     ~Bullet();
+    void SetType(int type); //Bullet(type)
+    void ResetBullet(); //Bullet()
+    void InitBulletWithTypeAndPosition(Vector2 Position, int type); // Bullet(Position, type)
     void Draw();
     void Update(float dt);
     void SetPosition(Vector2 Position);

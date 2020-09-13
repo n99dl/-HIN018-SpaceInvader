@@ -21,6 +21,7 @@ Bullet::Bullet()
 	m_IsHoming = false;
 	m_HomingCooldown = 0.0f;
 }
+
 Bullet::Bullet(int type) : Bullet()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
@@ -74,6 +75,68 @@ Bullet::Bullet(Vector2 Position, int type) : Bullet(type)
 Bullet::~Bullet()
 {
 	std::cout << "Bullet destroyed\n";
+}
+
+void Bullet::SetType(int type)
+{
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	std::shared_ptr<Texture> texture;
+	int xSize = 0, ySize = 0;
+	switch (type)
+	{
+	case PLAYER_BULLET:
+		texture = ResourceManagers::GetInstance()->GetTexture("player_bullet");
+		m_HitBox = std::make_shared<HitBox>(Vector2(m_Position), Vector2(PB_SIZE_X / 2.0 - 10, PB_SIZE_Y / 2.0 - 5));
+		xSize = PB_SIZE_X;
+		ySize = PB_SIZE_Y;
+		m_Power = GameController::GetInstance()->GetPlayer()->GetBulletPower();
+		if (m_Power > 10)
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("empowered_player_bullet");
+		}
+		else
+			texture = ResourceManagers::GetInstance()->GetTexture("player_bullet");
+		break;
+	case E1_BULLET:
+		texture = ResourceManagers::GetInstance()->GetTexture("enemy_bullet");
+		m_HitBox = std::make_shared<HitBox>(Vector2(m_Position), Vector2(E1B_SIZE_X / 2.0 - 5, E1B_SIZE_Y / 2.0 - 5));
+		xSize = E1B_SIZE_X;
+		ySize = E1B_SIZE_Y;
+		break;
+	case E3_BULLET:
+		texture = ResourceManagers::GetInstance()->GetTexture("enemy_bullet");
+		m_HitBox = std::make_shared<HitBox>(Vector2(m_Position), Vector2(E1B_SIZE_X / 2.0 - 5, E1B_SIZE_Y / 2.0 - 5));
+		xSize = E1B_SIZE_X;
+		ySize = E1B_SIZE_Y;
+		m_Power = E3_BULLET_POWER;
+		m_BulletPatern = Vector2(0, 1);
+		EnableHoming();
+		break;
+	default:
+		break;
+	}
+	m_Sprite = std::make_shared<Sprite2D>(model, shader, texture);
+	m_Sprite->SetSize(xSize, ySize);
+	m_Sprite->Set2DPosition(m_Position);
+}
+
+void Bullet::ResetBullet()
+{
+	m_Position = Vector2(0, 0);
+	m_Speed = BASE_BULLET_SPEED;
+	m_Power = BASE_BULLET_POWER;
+	m_BulletPatern = Vector2(0, -1); //Move Upward
+	m_IsHoming = false;
+	m_HomingCooldown = 0.0f;
+}
+
+void Bullet::InitBulletWithTypeAndPosition(Vector2 Position, int type)
+{
+	SetType(type);
+	m_Position = Position;
+	m_Sprite->Set2DPosition(m_Position);
+	m_HitBox->SetPosition(Position);
 }
 
 void Bullet::Draw()
