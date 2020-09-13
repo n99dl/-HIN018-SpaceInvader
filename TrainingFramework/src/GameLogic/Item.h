@@ -10,6 +10,7 @@ private:
     int m_Type;
     int m_Speed;
     Vector2 m_MovePatern;
+    void CheckBorder();
 public:
     Item();
     Item(int type, Vector2 Position);

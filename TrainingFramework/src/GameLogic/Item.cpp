@@ -2,6 +2,18 @@
 #include <iostream>
 #include <time.h>
 
+void Item::CheckBorder()
+{
+	if (m_Position.x <= 25 && m_MovePatern.x < 0)
+	{
+		m_MovePatern.x = -m_MovePatern.x;
+	}
+	if (m_Position.x >= screenWidth - 25 && m_MovePatern.x >= 0)
+	{
+		m_MovePatern.x = -m_MovePatern.x;
+	}
+}
+
 Item::Item()
 {
 	m_Type = 0;
@@ -48,6 +60,7 @@ void Item::Draw()
 void Item::Update(float dt)
 {
 	Move(dt);
+	CheckBorder();
 	m_Sprite->Set2DPosition(m_Position);
 	m_Sprite->Update(dt);
 	m_HitBox->SetPosition(m_Position);
