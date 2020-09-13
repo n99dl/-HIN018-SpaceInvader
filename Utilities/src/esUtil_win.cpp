@@ -63,7 +63,7 @@ LRESULT WINAPI ESWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		ESContext* esContext = (ESContext*)(LONG_PTR)GetWindowLongPtr(hWnd, GWL_USERDATA);
 		POINT      point;
 		GetCursorPos(&point);
-		std::cout << "clicked\n";
+		//std::cout << "clicked\n";
 		if (esContext && esContext->mouseFunc)
 			esContext->mouseFunc(esContext, (int)point.x - WDpoint.x , (int)point.y - WDpoint.y , 1);
 

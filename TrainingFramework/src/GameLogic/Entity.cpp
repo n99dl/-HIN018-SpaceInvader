@@ -53,7 +53,10 @@ bool Entity::isActive()
 void Entity::CheckActive()
 {
 	if (Entity::OutOfWindow(m_Position))
+	{
 		m_isActive = false;
+		RemoveFromScreen();
+	}
 }
 
 std::shared_ptr<HitBox> Entity::GetHitBox()
@@ -70,4 +73,10 @@ bool Entity::IsCollide(std::shared_ptr<Entity> _Entity)
 Vector2 Entity::GetPosition()
 {
 	return m_Position;
+}
+
+void Entity::RemoveFromScreen()
+{
+	m_Position = Vector2(-100, -100);
+	m_Sprite->Set2DPosition(m_Position);
 }

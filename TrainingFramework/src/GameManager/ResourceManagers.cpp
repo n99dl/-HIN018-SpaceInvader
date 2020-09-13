@@ -154,7 +154,7 @@ std::shared_ptr<Font> ResourceManagers::GetFont(const std::string& name)
 		return it->second;
 	}
 	std::string path = m_FontPath + name + ".ttf";
-	std::cout << "Load Font" << "\n";
+	//std::cout << "Load Font" << "\n";
 	std::shared_ptr<Font> font = std::make_shared<Font>(path);
 	m_MapFont.insert(std::pair<std::string, std::shared_ptr<Font>>(name, font));
 	return font;

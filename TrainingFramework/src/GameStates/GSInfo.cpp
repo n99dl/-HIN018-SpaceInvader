@@ -20,7 +20,7 @@ GSInfo::~GSInfo()
 
 void GSInfo::Init()
 {
-	std::cout << "Enter Info scene\n";
+	//std::cout << "Enter Info scene\n";
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("BG");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");

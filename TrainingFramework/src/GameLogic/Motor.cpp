@@ -10,7 +10,7 @@
 
 void Motor::Die()
 {
-	std::cout << "Motor die\n";
+	//std::cout << "Motor die\n";
 	GameController::GetInstance()->AddScore(E3_SCORE);
 	GameController::GetInstance()->AlertMotorDestroyed();
 	Enemy::Die();

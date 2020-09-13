@@ -11,9 +11,16 @@ AnimationSprite::AnimationSprite(std::shared_ptr<Models> model, std::shared_ptr<
 
 }
 
+void AnimationSprite::Reset()
+{
+	m_currentFrame = 0;
+	m_currentTime = 0.0f;
+	m_IsActive = true;
+}
+
 AnimationSprite::~AnimationSprite()
 {
-	std::cout << "Animation destroyed\n";
+	//std::cout << "Animation destroyed\n";
 }
 
 void AnimationSprite::Init()

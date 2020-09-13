@@ -8,7 +8,7 @@
 
 void DarkPlane::Die()
 {
-	std::cout << "Dark Plane die\n";
+	//std::cout << "Dark Plane die\n";
 	GameController::GetInstance()->AddScore(E1_SCORE);
 	Enemy::Die();
 }
@@ -53,7 +53,9 @@ void DarkPlane::Update(float dt)
 
 void DarkPlane::Shoot()
 {
-	std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(m_Position, E1_BULLET);
+	//std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(m_Position, E1_BULLET);
+	std::shared_ptr<Bullet> NewBullet = ObjectPools::GetInstance()->getEnemyBullet();
+	NewBullet->InitBulletWithTypeAndPosition(m_Position, E1_BULLET);
 	NewBullet->SetBulletPatern(m_BulletPatern);
 	NewBullet->SetBulletSpeed(E1_BULLET_SPEED);
 	GameController::GetInstance()->AddEnemyBullet(NewBullet);

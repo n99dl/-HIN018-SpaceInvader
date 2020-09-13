@@ -9,7 +9,7 @@
 
 void CirclePlane::Die()
 {
-	std::cout << "Dark Plane die\n";
+	//std::cout << "Dark Plane die\n";
 	GameController::GetInstance()->AddScore(E2_SCORE);
 	Enemy::Die();
 }
@@ -97,7 +97,10 @@ void CirclePlane::Shoot()
 
 void CirclePlane::CreateBulletAt(Vector2 Position)
 {
-	std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(Position, E1_BULLET);
+	//std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(Position, E1_BULLET);
+	std::shared_ptr<Bullet> NewBullet = ObjectPools::GetInstance()->getEnemyBullet();
+	NewBullet->InitBulletWithTypeAndPosition(Position, E1_BULLET);
+
 	Vector2 p_Position = GameController::GetInstance()->GetPlayerPosition();
 	//float dot = (p_Position.y - m_Position.y);
 	//float det = (p_Position.x - m_Position.x);

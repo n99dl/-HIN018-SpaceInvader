@@ -19,6 +19,7 @@ public:
 	std::shared_ptr<HitBox> GetHitBox();
 	bool IsCollide(std::shared_ptr<Entity> _Entity);
 	Vector2 GetPosition();
+	void RemoveFromScreen();
 protected:
 	std::shared_ptr<HitBox> m_HitBox;
 	bool m_isActive;

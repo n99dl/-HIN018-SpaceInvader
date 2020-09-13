@@ -1,5 +1,6 @@
 #pragma once
 #include <U_Math.h>
+#include "ObjectPool/ObjectPools.h"
 #include "Sprite2D.h"
 #include "Enemy.h"
 #include "Entity.h"
@@ -10,6 +11,7 @@
 class Player : public Entity
 {
 protected:
+	int m_bulletType;
 	int m_Hp;
 	int m_Speed;
 	int m_WeaponLevel;

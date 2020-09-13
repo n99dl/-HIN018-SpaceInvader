@@ -99,6 +99,12 @@ void Player::Shoot()
 	case 3:
 		ShootDouble();
 		ShootRear();
+		break;
+	case 4:
+		ShootStraight();
+		ShootDouble();
+		ShootRear();
+		break;
 	default:
 		break;
 	}
@@ -111,7 +117,7 @@ void Player::SetIsShooting(bool IsShooting)
 
 void Player::PowerUp()
 {
-	if (m_WeaponLevel < 3)
+	if (m_WeaponLevel < 4)
 	{
 		m_WeaponLevel++;
 		m_totalPower++;
@@ -121,8 +127,10 @@ void Player::PowerUp()
 		m_AttackSpeed -= 0.05;
 		m_totalPower++;
 	}
-	else if (m_bulletPower <= 14)
+	else if (m_bulletPower <= 13)
 	{
+		std::cout << "Empowering\n";
+		m_bulletType = EMPOWERED_P_BULLET;
 		m_bulletPower+=2;
 		m_totalPower++;
 	}
@@ -131,8 +139,9 @@ void Player::PowerUp()
 
 void Player::HpUp()
 {
-	m_Hp += 10;
+	m_Hp += 20;
 	MediaPlayer::GetInstance()->PlaySound(POWER_UP_ID);
+	MediaPlayer::GetInstance()->PlaySound(HP_UP);
 	m_Hp = min(m_Hp, 110);
 }
 
@@ -153,7 +162,7 @@ void Player::DamageBy(std::shared_ptr<Bullet> _Bullet)
 {
 	if (!_Bullet->isActive())
 		return;
-	std::cout << "Get shot by " << _Bullet->GetID() << "\n";
+	//std::cout << "Get shot by " << _Bullet->GetID() << "\n";
 	m_Hp -= _Bullet->GetPower();
 	//impact effect
 	auto texture = ResourceManagers::GetInstance()->GetTexture("impact");
@@ -161,9 +170,9 @@ void Player::DamageBy(std::shared_ptr<Bullet> _Bullet)
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	std::shared_ptr<AnimationSprite> impactAnimation = std::make_shared<AnimationSprite>(model, shader, texture, I_NUM_FRAME, I_FRAME_TIME, false);
 	impactAnimation->Set2DPosition(_Bullet->GetPosition());
-	impactAnimation->SetSize(I_SIZE, I_SIZE);
+	impactAnimation->SetSize(P_I_SIZE, P_I_SIZE);
 	GameController::GetInstance()->AddAnimation(impactAnimation);
-
+	MediaPlayer::GetInstance()->PlaySound(PLAYER_HIT);
 	if (m_Hp <= 0)
 	{
 		Die();
@@ -174,7 +183,7 @@ void Player::DamageBy(std::shared_ptr<Enemy> _Enemy)
 {
 	if (!_Enemy->isActive())
 		return;
-	std::cout << "Collide with " << _Enemy->GetID() << "\n";
+	//std::cout << "Collide with " << _Enemy->GetID() << "\n";
 	m_Hp -= _Enemy->getHp();
 	//impact effect
 	auto texture = ResourceManagers::GetInstance()->GetTexture("impact");
@@ -184,7 +193,7 @@ void Player::DamageBy(std::shared_ptr<Enemy> _Enemy)
 	impactAnimation->Set2DPosition(_Enemy->GetPosition());
 	impactAnimation->SetSize(I_SIZE, I_SIZE);
 	GameController::GetInstance()->AddAnimation(impactAnimation);
-
+	MediaPlayer::GetInstance()->PlaySound(PLAYER_HIT);
 	if (m_Hp <= 0)
 	{
 		Die();
@@ -222,9 +231,11 @@ void Player::Die()
 	auto texture = ResourceManagers::GetInstance()->GetTexture("blue_explosion");
 	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	std::shared_ptr<AnimationSprite> Explosion = std::make_shared<AnimationSprite>(model, shader, texture, BE_NUM_FRAME, BE_FRAME_TIME, false);
+	std::shared_ptr<AnimationSprite> Explosion = std::make_shared<AnimationSprite>(model, shader, texture, BE_NUM_FRAME, BE_FRAME_TIME, true);
 	Explosion->Set2DPosition(m_Position);
 	Explosion->SetSize(BE_SIZE, BE_SIZE);
+	MediaPlayer::GetInstance()->StopSound(PLAY_MUSIC_ID);
+	MediaPlayer::GetInstance()->PlaySound(PLAYER_DEAD);
 	GameController::GetInstance()->AddAnimation(Explosion);
 	GameController::GetInstance()->StartGameOverCountDown();
 }
@@ -242,7 +253,10 @@ void Player::ShootStraight()
 {
 	//std::shared_ptr<Bullet> NewBullet = Bullet::Create(m_Position);
 	//GameController::GetInstance()->AddBullet(NewBullet);
-	std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(m_Position, PLAYER_BULLET);
+	//std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(m_Position, PLAYER_BULLET);
+	std::shared_ptr<Bullet> NewBullet = ObjectPools::GetInstance()->getPlayerBullet();
+	NewBullet->InitBulletWithTypeAndPosition(m_Position, m_bulletType);
+	NewBullet->SetBulletPatern(Vector2(0, -1));
 	GameController::GetInstance()->AddPlayerBullet(NewBullet);
 }
 
@@ -250,37 +264,54 @@ void Player::ShootDouble()
 {
 	Vector2 bulletPosition = m_Position;
 	bulletPosition += Vector2(-DOUBLE_SHOOT_OFFSET, 0); //Fix Offset for now
-	std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(bulletPosition, PLAYER_BULLET);
+
+	std::shared_ptr<Bullet> NewBullet = ObjectPools::GetInstance()->getPlayerBullet();
+	NewBullet->InitBulletWithTypeAndPosition(bulletPosition, m_bulletType);
+	NewBullet->SetBulletPatern(Vector2(0, -1));
 	GameController::GetInstance()->AddPlayerBullet(NewBullet);
 
+	//std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(bulletPosition, PLAYER_BULLET);
+	//GameController::GetInstance()->AddPlayerBullet(NewBullet);
+
 	bulletPosition += Vector2(DOUBLE_SHOOT_OFFSET, 0) * 2; //Fix Offset for now
-	std::shared_ptr<Bullet> NewBullet2 = std::make_shared<Bullet>(bulletPosition, PLAYER_BULLET);
-	GameController::GetInstance()->AddPlayerBullet(NewBullet2);
+	//std::shared_ptr<Bullet> NewBullet2 = std::make_shared<Bullet>(bulletPosition, PLAYER_BULLET);
+	//GameController::GetInstance()->AddPlayerBullet(NewBullet2);
+	NewBullet = ObjectPools::GetInstance()->getPlayerBullet();
+	NewBullet->InitBulletWithTypeAndPosition(bulletPosition, m_bulletType);
+	NewBullet->SetBulletPatern(Vector2(0, -1));
+	GameController::GetInstance()->AddPlayerBullet(NewBullet);
 }
 
 void Player::ShootRear()
 {
 	Vector2 bulletPosition = m_Position;
 	bulletPosition += Vector2(-REAR_SHOOT_OFFSET, 0); //Fix Offset for now
-	std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(bulletPosition, PLAYER_BULLET);
+	//std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(bulletPosition, PLAYER_BULLET);
+	//NewBullet->SetBulletPatern(Vector2(-0.2, -1)); // Left
+	//GameController::GetInstance()->AddPlayerBullet(NewBullet);
+
+	std::shared_ptr<Bullet> NewBullet = ObjectPools::GetInstance()->getPlayerBullet();
+	NewBullet->InitBulletWithTypeAndPosition(bulletPosition, m_bulletType);
 	NewBullet->SetBulletPatern(Vector2(-0.2, -1)); // Left
 	GameController::GetInstance()->AddPlayerBullet(NewBullet);
 
 	bulletPosition += Vector2(REAR_SHOOT_OFFSET, 0) * 2; //Fix Offset for now
-	std::shared_ptr<Bullet> NewBullet2 = std::make_shared<Bullet>(bulletPosition, PLAYER_BULLET);
-	NewBullet2->SetBulletPatern(Vector2(0.2, -1)); // Right
-	GameController::GetInstance()->AddPlayerBullet(NewBullet2);
+	//std::shared_ptr<Bullet> NewBullet2 = std::make_shared<Bullet>(bulletPosition, PLAYER_BULLET);
+	NewBullet = ObjectPools::GetInstance()->getPlayerBullet();
+	NewBullet->InitBulletWithTypeAndPosition(bulletPosition, m_bulletType);
+	NewBullet->SetBulletPatern(Vector2(0.2, -1)); // Right
+	GameController::GetInstance()->AddPlayerBullet(NewBullet);
 }
 
 void Player::LeanLeft()
 {
-	std::cout << "Lean left\n";
+	//std::cout << "Lean left\n";
 	m_Sprite = m_leftSprite;
 }
 
 void Player::LeanRight()
 {
-	std::cout << "Lean Right\n";
+	//std::cout << "Lean Right\n";
 	m_Sprite = m_rightSprite;
 }
 
@@ -328,7 +359,8 @@ Player::Player()
 	m_leanCooldown = 0;
 	m_bulletPower = 10;
 	m_totalPower = 1;
-	std::cout << "As :" << m_AttackSpeed << "\n";
+	m_bulletType = PLAYER_BULLET;
+	//std::cout << "As :" << m_AttackSpeed << "\n";
 }
 
 Player::~Player()

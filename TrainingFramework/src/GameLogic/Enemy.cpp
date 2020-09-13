@@ -32,7 +32,9 @@ void Enemy::Die()
 	}
 	else
 	{
-		Explosion = std::make_shared<AnimationSprite>(model, shader, texture, RE_NUM_FRAME, RE_FRAME_TIME, false);
+		//Explosion = std::make_shared<AnimationSprite>(model, shader, texture, RE_NUM_FRAME, RE_FRAME_TIME, false);
+		Explosion = ObjectPools::GetInstance()->getExplosionAnimation();
+		Explosion->Reset();
 		Explosion->Set2DPosition(m_Position);
 		Explosion->SetSize(RE_SIZE, RE_SIZE);
 		GameController::GetInstance()->AddAnimation(Explosion);
@@ -51,7 +53,7 @@ void Enemy::DropItem()
 
 Enemy::Enemy()
 {
-	std::cout << "Enemy created\n";
+	//std::cout << "Enemy created\n";
 	m_isActive = true;
 	m_MovePatern = Vector2(0, 1);
 	srand(time(NULL));
@@ -104,14 +106,16 @@ void Enemy::DamageBy(std::shared_ptr<Bullet> _Bullet)
 {
 	if (!_Bullet->isActive())
 		return;
-	std::cout << "Get shot by " << _Bullet->GetID() << "\n";
+	//std::cout << "Get shot by " << _Bullet->GetID() << "\n";
 	m_Hp -= _Bullet->GetPower();
 	m_Hp = max(0, m_Hp);
 	//impact effect
-	auto texture = ResourceManagers::GetInstance()->GetTexture("impact");
-	auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
-	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
-	std::shared_ptr<AnimationSprite> impactAnimation = std::make_shared<AnimationSprite>(model, shader, texture, I_NUM_FRAME, I_FRAME_TIME, false);
+	//auto texture = ResourceManagers::GetInstance()->GetTexture("impact");
+	//auto shader = ResourceManagers::GetInstance()->GetShader("AnimationShader");
+	//auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
+	//std::shared_ptr<AnimationSprite> impactAnimation = std::make_shared<AnimationSprite>(model, shader, texture, I_NUM_FRAME, I_FRAME_TIME, false);
+	std::shared_ptr<AnimationSprite> impactAnimation = ObjectPools::GetInstance()->getImpactAnimation();
+	impactAnimation->Reset();
 	impactAnimation->Set2DPosition(_Bullet->GetPosition());
 	impactAnimation->SetSize(I_SIZE, I_SIZE);
 	GameController::GetInstance()->AddAnimation(impactAnimation);
@@ -129,6 +133,6 @@ void Enemy::InstaDie()
 
 void Enemy::Shoot()
 {
-	std::cout << "Enemy class shoot\n";
+	//std::cout << "Enemy class shoot\n";
 }
 

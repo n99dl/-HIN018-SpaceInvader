@@ -58,7 +58,10 @@ void ImperialSpaceShip::GenerateDestination()
 
 void ImperialSpaceShip::CreateE1BulletWithPattern(Vector2 Pattern)
 {
-	std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(m_Position, E1_BULLET);
+	//std::shared_ptr<Bullet> NewBullet = std::make_shared<Bullet>(m_Position, E1_BULLET);
+	std::shared_ptr<Bullet> NewBullet = ObjectPools::GetInstance()->getEnemyBullet();
+	NewBullet->InitBulletWithTypeAndPosition(m_Position, E1_BULLET);
+
 	NewBullet->SetBulletPatern(Pattern);
 	NewBullet->SetBulletSpeed(E1_BULLET_SPEED);
 	GameController::GetInstance()->AddEnemyBullet(NewBullet);
@@ -108,7 +111,7 @@ ImperialSpaceShip::~ImperialSpaceShip()
 
 void ImperialSpaceShip::Update(float dt)
 {
-	std::cout << "Boss test :" << m_Hp << "\n";
+	//std::cout << "Boss test :" << m_Hp << "\n";
 	Enemy::Update(dt);
 	Enemy::Update(dt);
 	//std::cout << "Idle Time: " << m_idleTime << "\n";

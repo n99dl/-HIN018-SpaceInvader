@@ -2,6 +2,7 @@
 #include "soloud.h"
 #include "soloud_wav.h"
 #include "soloud_file.h"
+#include "../GameLogic/ObjectPool/ObjectPools.h"
 
 #define OFFSET_H 300
 #define LINE_WIDTH 30
@@ -29,6 +30,11 @@ void GameOverState::Init()
 	//SoLoud::DiskFile* f = new SoLoud::DiskFile(MediaPlayer::GetInstance()->InitWav("test2.mp3"));
 	//MediaPlayer::GetInstance()->PlaySound(0);
 
+	//std::cout << "Total bullets: " << ObjectPools::GetInstance()->GetTotalBullet() << "\n";
+
+	int maxWave = GameController::GetInstance()->GetWave();
+	if (maxWave < 6)
+	MediaPlayer::GetInstance()->PlaySound(GAME_OVER);
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("BG");
 
@@ -63,7 +69,6 @@ void GameOverState::Init()
 	m_listButton.push_back(button);
 
 	//Highest wave
-	int maxWave = GameController::GetInstance()->GetWave();
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("game_text_Bold");
 	std::string highscore = "Your highest wave is " + std::to_string(maxWave);

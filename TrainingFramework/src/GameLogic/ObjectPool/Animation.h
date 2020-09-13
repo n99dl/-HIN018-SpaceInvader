@@ -9,6 +9,8 @@ public:
 	void Update(float dt);
 	void Destroy();
 	bool IsActive();
+	void Reset();
+	void SetPosition(Vector2 Position);
 protected:
 	bool m_IsActive;
 	std::shared_ptr<AnimationSprite> m_Sprite;

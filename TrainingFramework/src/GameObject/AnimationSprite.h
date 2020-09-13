@@ -12,6 +12,7 @@ public:
 	void Update(GLfloat deltatime);
 	void Destroy();
 	bool IsActive();
+	void Reset();
 protected:
 	int m_numFrames;
 	float m_frameTime;

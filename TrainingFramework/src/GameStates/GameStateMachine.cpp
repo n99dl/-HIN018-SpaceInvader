@@ -60,7 +60,7 @@ void GameStateMachine::PopState()
 
 	// resume previous state
 	if (!m_StatesStack.empty()) {
-		std::cout << "return to state\n";
+		//std::cout << "return to state\n";
 		m_StatesStack.back()->Resume();
 		m_pActiveState = m_StatesStack.back();
 	}

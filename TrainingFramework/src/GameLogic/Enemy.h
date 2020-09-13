@@ -1,6 +1,8 @@
 #pragma once
 #include "Entity.h"
-#include <GameLogic\Bullet.h>
+#include "GameLogic/Bullet.h"
+#include "ObjectPool/ObjectPools.h"
+
 class Enemy :
     public Entity
 {

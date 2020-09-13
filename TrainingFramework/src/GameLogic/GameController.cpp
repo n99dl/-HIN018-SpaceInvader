@@ -5,6 +5,7 @@
 #include <GameLogic\CirclePlane.h>
 #include <time.h>
 #include <GameLogic\Motor.h>
+#include "ObjectPool/ObjectPools.h"
 #include <GameLogic\ImperialSpaceShip.h>
 
 extern int screenWidth; //need get on Graphic engine
@@ -29,13 +30,14 @@ void GameController::Init()
 
 void GameController::CreatePlayer()
 {
-	std::cout << "Player created\n";
+	//std::cout << "Player created\n";
 	m_Player = std::make_shared<Player>();
 }
 
 void GameController::CreateLevel()
 {
 	CreatePlayer();
+	ObjectPools::GetInstance()->InitBulletPool();
 	m_wave = 0;
 	m_totalMotor = 0;
 	m_motorCreated = 0;
@@ -372,7 +374,6 @@ void GameController::SpamMinion()
 	if (m_GameTime >= 3.0 && m_wave < 1)
 	{
 		m_wave = 1;
-		std::cout << "set to 1\n";
 		m_EnemySpamTime = 2.0f;
 	}
 	if (m_GameTime >= 15.0 && m_wave < 2)
@@ -391,14 +392,14 @@ void GameController::SpamMinion()
 		m_SpecialEnemySpamTime = 0.0f;
 		m_EnemySpamTime = 2.0f;
 	}
-	float base_special_cd = 3.0; //?? name pls
+	float base_special_cd = 2.5; //?? name pls
 	//Wave 1
 	switch (m_wave)
 	{
 	case 1:
 		if (m_EnemySpamTime >= base_spam_time)
 		{
-			Vector2 Position = Vector2(rand() % (screenWidth - 30) + 30, -30);
+			Vector2 Position = Vector2(rand() % (screenWidth - 60) + 30, -30);
 			AddDarkPlane(Position);
 			m_EnemySpamTime -= base_spam_time;
 		}
@@ -407,10 +408,10 @@ void GameController::SpamMinion()
 		base_spam_time = 1.8f;
 		if (m_EnemySpamTime >= base_spam_time)
 		{
-			Vector2 Position = Vector2(rand() % (screenWidth - 30) + 30, -30);
+			Vector2 Position = Vector2(rand() % (screenWidth - 60) + 30, -30);
 			AddDarkPlane(Position);
 			m_EnemySpamTime -= base_spam_time;
-			float vPos = rand() % 300;
+			float vPos = rand() % 240 + 30;
 			AddRandomSideCirclePlane(vPos);
 		}
 		break;
@@ -437,7 +438,7 @@ void GameController::SpamMinion()
 		}
 		if (m_SpecialEnemySpamTime >= base_special_cd)
 		{
-			float vPos = rand() % 300;
+			float vPos = rand() % 270 + 30;
 			AddCirclePlane(vPos, 0);
 			AddCirclePlane(vPos, 1);
 			m_SpecialEnemySpamTime -= base_special_cd;

@@ -4,6 +4,7 @@ class Bullet :
     public Entity
 {
 protected:
+    int m_type;
     int m_Speed;
     Vector2 m_BulletPatern;
     int m_Power;

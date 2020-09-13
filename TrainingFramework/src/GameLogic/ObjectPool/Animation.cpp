@@ -24,6 +24,7 @@ void Animation::Update(float dt)
 
 void Animation::Destroy()
 {
+	m_Sprite->Set2DPosition(-100, -100);
 	m_Sprite->Destroy();
 	m_IsActive = false;
 }
@@ -31,4 +32,15 @@ void Animation::Destroy()
 bool Animation::IsActive()
 {
 	return m_IsActive;
+}
+
+void Animation::Reset()
+{
+	m_IsActive = true;
+	m_Sprite->Reset();
+}
+
+void Animation::SetPosition(Vector2 Position)
+{
+	m_Sprite->Set2DPosition(Position);
 }
