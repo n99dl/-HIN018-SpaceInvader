@@ -148,6 +148,10 @@ void GameController::Update(float dt)
 		GameStateMachine::GetInstance()->PushState(StateTypes::STATE_Pause);
 		KeyPressed ^= PAUSE;
 	}
+	if (KeyPressed & CHEAT_PU)
+	{
+		m_Player->PowerUp();
+	}
 	//Upd Player
 	m_Player->Update(dt);
 	//Update Enemy
@@ -293,6 +297,9 @@ void GameController::HandleKeyEvents(int key, bool isPressed)
 		case 'P':
 			KeyPressed |= PAUSE;
 			break;
+		case 'L':
+			KeyPressed |= CHEAT_PU;
+			break;
 		defualt:
 			break;
 		}
@@ -317,6 +324,9 @@ void GameController::HandleKeyEvents(int key, bool isPressed)
 			break;
 		case 'P':
 			KeyPressed ^= PAUSE;
+			break;
+		case 'L':
+			KeyPressed ^= CHEAT_PU;
 			break;
 		default:
 			break;

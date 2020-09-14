@@ -143,6 +143,7 @@ void Bullet::SetType(int type)
 	default:
 		break;
 	}
+	m_type = type;
 	m_Sprite = std::make_shared<Sprite2D>(model, shader, texture);
 	m_Sprite->SetSize(xSize, ySize);
 	m_Sprite->Set2DPosition(m_Position);

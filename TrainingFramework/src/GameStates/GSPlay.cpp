@@ -1,6 +1,7 @@
 #include "GSPlay.h"
 #include <string>
 
+#include "ControllerSetting.h"
 #include "MediaPlayer.h"
 #include "Shaders.h"
 #include "Texture.h"
@@ -27,6 +28,10 @@ GSPlay::~GSPlay()
 
 void GSPlay::Init()
 {
+	if (ControllerSetting::GetControlType() == MOUSE)
+	{
+		ShowCursor(false);
+	}
 	MediaPlayer::GetInstance()->PlaySound(PLAY_MUSIC_ID);
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_play");
@@ -51,18 +56,21 @@ void GSPlay::Init()
 
 void GSPlay::Exit()
 {
-
+	ShowCursor(true);
 }
 
 
 void GSPlay::Pause()
 {
-
+	
 }
 
 void GSPlay::Resume()
 {
-
+	if (ControllerSetting::GetControlType() == MOUSE)
+	{
+		ShowCursor(false);
+	}
 }
 
 

@@ -7,4 +7,5 @@
 #define SHOOT		1 << 4
 #define PAUSE		1 << 5
 #define BOOST		1 << 6
+#define CHEAT_PU	1 << 7
 
