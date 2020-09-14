@@ -49,6 +49,7 @@ CirclePlane::CirclePlane(float vPosition) : CirclePlane()
 	case E2_TYPE_RIGHT:
 		m_Position.x = screenWidth;
 		m_MovePatern = Vector2(-1, 0);
+		m_Sprite->SetZRotation(-M_PI / 2.0);
 		break;
 	}
 }
@@ -65,6 +66,7 @@ CirclePlane::CirclePlane(float vPosition, int type) : CirclePlane()
 	case E2_TYPE_RIGHT:
 		m_Position.x = screenWidth;
 		m_MovePatern = Vector2(-1, 0);
+		m_Sprite->SetZRotation(-M_PI / 2.0);
 		break;
 	}
 }

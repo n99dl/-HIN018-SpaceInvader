@@ -196,7 +196,7 @@ void Foreground::Update(float dt)
 			m_Text_wave->SetColor(m_Text_wave->EnumToVector(TEXT_COLOR::BLUE));
 			break;
 		case 4:
-			m_Text_wave->setText("Wave 3 Homing captain!");
+			m_Text_wave->setText("Wave 4 Homing captain!");
 			m_Text_wave->SetColor(m_Text_wave->EnumToVector(TEXT_COLOR::PURPLE));
 			break;
 		}
